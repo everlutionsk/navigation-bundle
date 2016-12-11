@@ -4,6 +4,7 @@ declare(strict_types = 1);
 
 namespace Everlution\NavigationBundle\Provider;
 
+use Everlution\Navigation\Navigation;
 use Everlution\Navigation\NavigationItem;
 use Everlution\Navigation\Provider\NavigationProvider;
 use Everlution\NavigationBundle\Navigation\NavigationItemFactory;
@@ -14,24 +15,31 @@ use Everlution\NavigationBundle\Navigation\NavigationItemFactory;
  */
 class YamlNavigationProvider extends NavigationProvider
 {
-    /** @var string */
-    private $name;
     /** @var NavigationItemFactory */
     private $factory;
 
-    public function __construct(string $name, NavigationItemFactory $factory)
+    public function __construct(NavigationItemFactory $factory)
     {
-        $this->name = $name;
         $this->factory = $factory;
     }
 
     protected function hook(NavigationItem &$item)
     {
-        $navigation = $this->factory->build($this->getName());
+        $this->factory->build($item);
     }
+
+    public function accept(Navigation &$navigation)
+    {
+        if (false === $this->factory->exists($navigation->getSlug())) {
+            return;
+        }
+
+        $this->hook($navigation);
+    }
+
 
     public function getName(): string
     {
-        return $this->name;
+        return 'yaml-navigation-provider';
     }
 }

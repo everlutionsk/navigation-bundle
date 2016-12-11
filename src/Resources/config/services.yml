@@ -1,6 +1,6 @@
 services:
-    everlution.navigation.yaml_loader:
-        class: Symfony\Component\DependencyInjection\Loader\YamlFileLoader
+    everlution.navigation.yaml_parser:
+        class: Symfony\Component\Yaml\Parser
 
     everlution.navigation.yaml_navigation_provider:
         class: Everlution\NavigationBundle\Provider\YamlNavigationProvider
@@ -12,5 +12,8 @@ services:
     everlution.navigation.item_factory:
         class: Everlution\NavigationBundle\Navigation\NavigationItemFactory
         arguments:
-            - '@everlution.navigation.yaml_loader'
+            - '@everlution.navigation.yaml_parser'
             - '%everlution.navigation.yaml_dir%'
+
+    everlution.navigation.register:
+        class: Everlution\Navigation\Register\NavigationRegister

@@ -30,6 +30,8 @@ class Navigation
 
     public function resolve(): array
     {
-        return $this->resolver->resolve($this->config);
+        $data = $this->resolver->resolve($this->config);
+
+        return $data[self::OPTION_ITEMS];
     }
 }

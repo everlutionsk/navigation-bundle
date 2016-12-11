@@ -13,7 +13,7 @@ use Symfony\Component\DependencyInjection\Loader\YamlFileLoader;
  * Class EverlutionNavigationBundleExtension.
  * @author Ivan Barlog <ivan.barlog@everlution.sk>
  */
-class EverlutionNavigationBundleExtension extends Extension
+class EverlutionNavigationExtension extends Extension
 {
     public function load(array $configs, ContainerBuilder $container)
     {

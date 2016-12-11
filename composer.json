@@ -1,0 +1,40 @@
+{
+    "name": "everlutionsk/navigation-bundle",
+    "description": "Symfony bundle for Navigation",
+    "type": "symfony-bundle",
+    "autoload": {
+        "psr-4": {
+            "Everlution\\NavigationBundle\\": "src/"
+        }
+    },
+    "require": {
+        "php": "^7.0",
+        "symfony/framework-bundle": "^3.0",
+        "symfony/config": "^3.0",
+        "symfony/dependency-injection": "^3.0",
+        "symfony/http-foundation": "^3.0",
+        "symfony/http-kernel": "^3.0",
+        "symfony/routing": "^3.0",
+        "symfony/security-core": "^3.0",
+        "symfony/templating": "^3.0",
+        "everlutionsk/navigation": "^0.1"
+    },
+    "repositories": [
+        {
+            "type": "vcs",
+            "url": "git@github.com:everlutionsk/navigation.git",
+            "options": {
+                "ssl": {
+                    "verify_peer": "true"
+                }
+            }
+        }
+    ],
+    "license": "MIT",
+    "authors": [
+        {
+            "name": "Ivan Barlog",
+            "email": "ivan@barlog.sk"
+        }
+    ]
+}

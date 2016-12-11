@@ -1,0 +1,16 @@
+services:
+    everlution.navigation.yaml_loader:
+        class: Symfony\Component\DependencyInjection\Loader\YamlFileLoader
+
+    everlution.navigation.yaml_navigation_provider:
+        class: Everlution\NavigationBundle\Provider\YamlNavigationProvider
+        arguments:
+            - '@everlution.navigation.item_factory'
+        tags:
+            - { name: everlution.navigation_provider }
+
+    everlution.navigation.item_factory:
+        class: Everlution\NavigationBundle\Navigation\NavigationItemFactory
+        arguments:
+            - '@everlution.navigation.yaml_loader'
+            - '%everlution.navigation.yaml_dir%'

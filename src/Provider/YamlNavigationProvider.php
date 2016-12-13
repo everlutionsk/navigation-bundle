@@ -4,7 +4,7 @@ declare(strict_types = 1);
 
 namespace Everlution\NavigationBundle\Provider;
 
-use Everlution\Navigation\Navigation;
+use Everlution\Navigation\RootNavigationItem;
 use Everlution\Navigation\NavigationItem;
 use Everlution\Navigation\Provider\NavigationProvider;
 use Everlution\NavigationBundle\Navigation\NavigationItemFactory;
@@ -28,9 +28,9 @@ class YamlNavigationProvider extends NavigationProvider
         $this->factory->build($item);
     }
 
-    public function accept(Navigation &$navigation)
+    public function accept(RootNavigationItem &$navigation)
     {
-        if (false === $this->factory->exists($navigation->getSlug())) {
+        if (false === $this->factory->exists($navigation->getIdentifier())) {
             return;
         }
 

@@ -2,10 +2,10 @@
 
 declare(strict_types = 1);
 
-namespace Everlution\NavigationBundle\Matcher;
+namespace Everlution\NavigationBundle\Voter;
 
 use Everlution\Navigation\NavigationItem;
-use Everlution\Navigation\Voter;
+use Everlution\Navigation\Voter\Voter;
 
 /**
  * Class UriVoter.
@@ -15,6 +15,6 @@ class UriVoter extends RequestAware implements Voter
 {
     public function match(NavigationItem $item): bool
     {
-        return $this->getRequest()->getRequestUri() === $item->getIdentifier();
+        return $this->getRequest()->getRequestUri() === $item->getUri();
     }
 }

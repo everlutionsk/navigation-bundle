@@ -1,4 +1,5 @@
 services:
+    # general
     everlution.navigation.yaml_parser:
         class: Symfony\Component\Yaml\Parser
 
@@ -16,4 +17,22 @@ services:
             - '%everlution.navigation.yaml_dir%'
 
     everlution.navigation.register:
-        class: Everlution\Navigation\Register\NavigationRegister
+        class: Everlution\Navigation\Registry\NavigationRegistry
+
+    # voters
+    everlution.navigation.uri_voter:
+        class: Everlution\NavigationBundle\Voter\UriVoter
+        arguments:
+            - '@request_stack'
+
+    everlution.navigation.route_voter:
+        class: Everlution\NavigationBundle\Voter\RouteVoter
+        arguments:
+            - '@request_stack'
+
+    # matchers
+    everlution.navigation.uri_matcher:
+        class: Everlution\Navigation\Matcher\NavigationItemMatcher
+        calls:
+            - ['addVoter', ['@everlution.navigation.uri_voter']]
+

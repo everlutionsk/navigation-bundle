@@ -10,7 +10,7 @@ use Symfony\Component\OptionsResolver\OptionsResolver;
  * Class Navigation.
  * @author Ivan Barlog <ivan.barlog@everlution.sk>
  */
-class Navigation
+class RootNavigationItem
 {
     const OPTION_ITEMS = 'items';
 
@@ -33,5 +33,18 @@ class Navigation
         $data = $this->resolver->resolve($this->config);
 
         return $data[self::OPTION_ITEMS];
+    }
+
+    public static function toArray(\Everlution\Navigation\RootNavigationItem $item)
+    {
+        $result = [
+            self::OPTION_ITEMS => [],
+        ];
+
+        foreach ($item->getChildren() as $child) {
+            $result[self::OPTION_ITEMS][] = NavigationItem::toArray($child);
+        }
+
+        return $result;
     }
 }

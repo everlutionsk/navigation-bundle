@@ -2,7 +2,7 @@
 
 declare(strict_types = 1);
 
-namespace Everlution\NavigationBundle\Matcher;
+namespace Everlution\NavigationBundle\Voter;
 
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\RequestStack;

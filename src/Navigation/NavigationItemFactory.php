@@ -5,7 +5,7 @@ declare(strict_types = 1);
 namespace Everlution\NavigationBundle\Navigation;
 
 use Everlution\Navigation\Item;
-use Everlution\NavigationBundle\Config\Navigation;
+use Everlution\NavigationBundle\Config\RootNavigationItem;
 use Everlution\NavigationBundle\Config\NavigationItem;
 use Symfony\Component\Yaml\Parser;
 
@@ -38,7 +38,7 @@ class NavigationItemFactory
         }
 
         $content = $this->parser->parse(file_get_contents($filename));
-        $items = (new Navigation($content))->resolve();
+        $items = (new RootNavigationItem($content))->resolve();
 
         foreach ($items as $item) {
             $item = $this->create($item);

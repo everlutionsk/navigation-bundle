@@ -48,4 +48,23 @@ class NavigationItem
         return $this->resolver->resolve($this->config);
     }
 
+    /**
+     * @param \Everlution\Navigation\NavigationItem $item
+     * @return array
+     */
+    public static function toArray(\Everlution\Navigation\NavigationItem $item) : array
+    {
+        $result = [
+            self::OPTION_CLASS => get_class($item),
+            self::OPTION_LABEL => $item->getLabel(),
+            self::OPTION_IDENTIFIER => $item->getUri(),
+            self::OPTION_CHILDREN => [],
+        ];
+
+        foreach ($item->getChildren() as $child) {
+            $result[self::OPTION_CHILDREN][] = self::toArray($child);
+        }
+
+        return $result;
+    }
 }

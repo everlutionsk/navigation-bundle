@@ -11,11 +11,26 @@ services:
             - { name: everlution.navigation_provider }
 
     everlution.navigation.item_factory:
-        class: Everlution\NavigationBundle\Navigation\NavigationItemFactory
+        class: Everlution\NavigationBundle\Factory\YamlNavigationItemFactory
         arguments:
             - '@everlution.navigation.yaml_parser'
             - '%everlution.navigation.yaml_dir%'
+        calls:
+            - ['addHydrator', ['@everlution.navigation.hydrator.navigation_item']]
+            - ['addHydrator', ['@everlution.navigation.hydrator.prefixed_navigation_item']]
+            - ['addHydrator', ['@everlution.navigation.hydrator.root_navigation_item']]
 
+    # hydrators
+    everlution.navigation.hydrator.navigation_item:
+        class: Everlution\NavigationBundle\Factory\Build\Hydrator\NavigationItem
+
+    everlution.navigation.hydrator.prefixed_navigation_item:
+        class: Everlution\NavigationBundle\Factory\Build\Hydrator\PrefixedNavigationItem
+
+    everlution.navigation.hydrator.root_navigation_item:
+        class: Everlution\NavigationBundle\Factory\Build\Hydrator\RootNavigationItem
+
+    # registry
     everlution.navigation.register:
         class: Everlution\Navigation\Registry\NavigationRegistry
 

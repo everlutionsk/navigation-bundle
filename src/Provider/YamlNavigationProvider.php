@@ -7,7 +7,7 @@ namespace Everlution\NavigationBundle\Provider;
 use Everlution\Navigation\RootNavigationItem;
 use Everlution\Navigation\NavigationItem;
 use Everlution\Navigation\Provider\NavigationProvider;
-use Everlution\NavigationBundle\Navigation\NavigationItemFactory;
+use Everlution\NavigationBundle\Factory\NavigationItemFactory;
 
 /**
  * Class YamlNavigationProvider.

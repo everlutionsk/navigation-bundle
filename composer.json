@@ -17,19 +17,8 @@
         "symfony/routing": "^3.0",
         "symfony/security-core": "^3.0",
         "symfony/templating": "^3.0",
-        "everlutionsk/navigation": "^0.2"
+        "everlutionsk/navigation": "^0.3"
     },
-    "repositories": [
-        {
-            "type": "vcs",
-            "url": "git@github.com:everlutionsk/navigation.git",
-            "options": {
-                "ssl": {
-                    "verify_peer": "true"
-                }
-            }
-        }
-    ],
     "license": "MIT",
     "authors": [
         {

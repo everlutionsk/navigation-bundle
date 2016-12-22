@@ -4,9 +4,8 @@ declare(strict_types = 1);
 
 namespace Everlution\NavigationBundle\Factory;
 
+use Everlution\Navigation\Factory\NavigationItemFactory;
 use Everlution\Navigation\NavigationItem;
-use Everlution\NavigationBundle\Navigation\DirectoryNotExistException;
-use Everlution\NavigationBundle\Navigation\FileNotExistException;
 use Symfony\Component\Yaml\Parser;
 
 /**

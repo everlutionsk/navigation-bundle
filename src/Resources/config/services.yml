@@ -19,16 +19,24 @@ services:
             - ['addHydrator', ['@everlution.navigation.hydrator.navigation_item']]
             - ['addHydrator', ['@everlution.navigation.hydrator.prefixed_navigation_item']]
             - ['addHydrator', ['@everlution.navigation.hydrator.root_navigation_item']]
+            - ['addHydrator', ['@everlution.navigation.hydrator.route_navigation_item']]
+            - ['addHydrator', ['@everlution.navigation.hydrator.regex_navigation_item']]
 
     # hydrators
+    everlution.navigation.hydrator.root_navigation_item:
+        class: Everlution\Navigation\Factory\Build\Hydrator\RootNavigationItem
+
     everlution.navigation.hydrator.navigation_item:
-        class: Everlution\NavigationBundle\Factory\Build\Hydrator\NavigationItem
+        class: Everlution\Navigation\Factory\Build\Hydrator\NavigationItem
 
     everlution.navigation.hydrator.prefixed_navigation_item:
-        class: Everlution\NavigationBundle\Factory\Build\Hydrator\PrefixedNavigationItem
+        class: Everlution\Navigation\Factory\Build\Hydrator\PrefixedNavigationItem
 
-    everlution.navigation.hydrator.root_navigation_item:
-        class: Everlution\NavigationBundle\Factory\Build\Hydrator\RootNavigationItem
+    everlution.navigation.hydrator.route_navigation_item:
+        class: Everlution\Navigation\Factory\Build\Hydrator\RouteNavigationItem
+
+    everlution.navigation.hydrator.regex_navigation_item:
+        class: Everlution\Navigation\Factory\Build\Hydrator\RegexNavigationItem
 
     # registry
     everlution.navigation.register:
@@ -45,9 +53,30 @@ services:
         arguments:
             - '@request_stack'
 
+    everlution.navigation.prefix_voter:
+        class: Everlution\NavigationBundle\Voter\PrefixVoter
+        arguments:
+            - '@request_stack'
+
+    everlution.navigation.regex_voter:
+        class: Everlution\NavigationBundle\Voter\RegexVoter
+        arguments:
+            - '@request_stack'
+
+    everlution.navigation.manual_voter:
+        class: Everlution\Navigation\Voter\ManualVoter
+        calls:
+            - ['addVoter', ['@everlution.navigation.uri_voter']]
+            - ['addVoter', ['@everlution.navigation.route_voter']]
+            - ['addVoter', ['@everlution.navigation.prefix_voter']]
+            - ['addVoter', ['@everlution.navigation.regex_voter']]
+
     # matchers
     everlution.navigation.uri_matcher:
         class: Everlution\Navigation\Matcher\NavigationItemMatcher
         calls:
             - ['addVoter', ['@everlution.navigation.uri_voter']]
-
+            - ['addVoter', ['@everlution.navigation.route_voter']]
+            - ['addVoter', ['@everlution.navigation.prefix_voter']]
+            - ['addVoter', ['@everlution.navigation.regex_voter']]
+            - ['addVoter', ['@everlution.navigation.manual_voter']]

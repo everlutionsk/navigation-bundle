@@ -2,9 +2,12 @@
 
 declare(strict_types = 1);
 
-namespace Everlution\NavigationBundle\Navigation;
+namespace Everlution\NavigationBundle\Factory;
 
-
+/**
+ * Class FileNotExistException.
+ * @author Ivan Barlog <ivan.barlog@everlution.sk>
+ */
 class FileNotExistException extends \Exception
 {
     public function __construct(string $filename)

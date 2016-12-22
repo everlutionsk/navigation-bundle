@@ -7,7 +7,7 @@ namespace Everlution\NavigationBundle\Provider;
 use Everlution\Navigation\RootNavigationItem;
 use Everlution\Navigation\NavigationItem;
 use Everlution\Navigation\Provider\NavigationProvider;
-use Everlution\NavigationBundle\Factory\NavigationItemFactory;
+use Everlution\NavigationBundle\Factory\YamlNavigationItemFactory;
 
 /**
  * Class YamlNavigationProvider.
@@ -15,10 +15,10 @@ use Everlution\NavigationBundle\Factory\NavigationItemFactory;
  */
 class YamlNavigationProvider extends NavigationProvider
 {
-    /** @var NavigationItemFactory */
+    /** @var YamlNavigationItemFactory */
     private $factory;
 
-    public function __construct(NavigationItemFactory $factory)
+    public function __construct(YamlNavigationItemFactory $factory)
     {
         $this->factory = $factory;
     }

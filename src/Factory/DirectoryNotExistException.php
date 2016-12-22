@@ -2,7 +2,7 @@
 
 declare(strict_types = 1);
 
-namespace Everlution\NavigationBundle\Navigation;
+namespace Everlution\NavigationBundle\Factory;
 
 /**
  * Class DirectoryNotExistException.

@@ -2,37 +2,11 @@
 
 ## Installation
 
-### Step 1: Add repositories to composer.json:
-
-```json
-    "repositories": [
-        {
-            "type": "vcs",
-            "url": "git@github.com:everlutionsk/navigation-bundle.git",
-            "options": {
-                "ssl": {
-                    "verify_peer": "true"
-                }
-            }
-        },
-        {
-            "type": "vcs",
-            "url": "git@github.com:everlutionsk/navigation.git",
-            "options": {
-                "ssl": {
-                    "verify_peer": "true"
-                }
-            }
-        }
-
-    ],
-```
-
 ### Step 1: Download the Bundle
 
 
 ```console
-$ composer require everlutionsk/navigation-bundle "~1"
+$ composer require everlutionsk/navigation-bundle
 ```
 
 ### Step 2: Enable the Bundle

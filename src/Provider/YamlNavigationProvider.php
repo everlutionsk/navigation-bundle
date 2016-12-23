@@ -4,8 +4,8 @@ declare(strict_types = 1);
 
 namespace Everlution\NavigationBundle\Provider;
 
+use Everlution\Navigation\Item;
 use Everlution\Navigation\RootNavigationItem;
-use Everlution\Navigation\NavigationItem;
 use Everlution\Navigation\Provider\NavigationProvider;
 use Everlution\NavigationBundle\Factory\YamlNavigationItemFactory;
 
@@ -23,8 +23,12 @@ class YamlNavigationProvider extends NavigationProvider
         $this->factory = $factory;
     }
 
-    protected function hook(NavigationItem &$item)
+    protected function hook(Item &$item)
     {
+        if (!$item instanceof RootNavigationItem) {
+            throw new \Exception();
+        }
+
         $this->factory->build($item);
     }
 

@@ -2,6 +2,7 @@ services:
     # general
     everlution.navigation.yaml_parser:
         class: Symfony\Component\Yaml\Parser
+        public: false
 
     everlution.navigation.yaml_navigation_provider:
         class: Everlution\NavigationBundle\Provider\YamlNavigationProvider
@@ -10,73 +11,115 @@ services:
         tags:
             - { name: everlution.navigation_provider }
 
+    # factory
     everlution.navigation.item_factory:
         class: Everlution\NavigationBundle\Factory\YamlNavigationItemFactory
         arguments:
+            - '@everlution.navigation.match_factory'
             - '@everlution.navigation.yaml_parser'
             - '%everlution.navigation.yaml_dir%'
         calls:
-            - ['addHydrator', ['@everlution.navigation.hydrator.navigation_item']]
-            - ['addHydrator', ['@everlution.navigation.hydrator.prefixed_navigation_item']]
-            - ['addHydrator', ['@everlution.navigation.hydrator.root_navigation_item']]
-            - ['addHydrator', ['@everlution.navigation.hydrator.route_navigation_item']]
-            - ['addHydrator', ['@everlution.navigation.hydrator.regex_navigation_item']]
+            - ['addHydrator', ['@everlution.navigation.hydrator.url_item']]
+            - ['addHydrator', ['@everlution.navigation.hydrator.route_item']]
+
+
+    everlution.navigation.match_factory:
+        class: Everlution\Navigation\Factory\MatchFactory
+        public: false
+        calls:
+            - ['addHydrator', ['@everlution.navigation.hydrator.exact_match']]
+            - ['addHydrator', ['@everlution.navigation.hydrator.prefix_match']]
+            - ['addHydrator', ['@everlution.navigation.hydrator.regex_match']]
 
     # hydrators
-    everlution.navigation.hydrator.root_navigation_item:
-        class: Everlution\Navigation\Factory\Build\Hydrator\RootNavigationItem
-
     everlution.navigation.hydrator.navigation_item:
-        class: Everlution\Navigation\Factory\Build\Hydrator\NavigationItem
+        class: Everlution\Navigation\Factory\Build\Hydrator\Item
+        public: false
 
-    everlution.navigation.hydrator.prefixed_navigation_item:
-        class: Everlution\Navigation\Factory\Build\Hydrator\PrefixedNavigationItem
+    everlution.navigation.hydrator.url_item:
+        class: Everlution\Navigation\Factory\Build\Hydrator\Item\UrlConfig
+        public: false
 
-    everlution.navigation.hydrator.route_navigation_item:
-        class: Everlution\Navigation\Factory\Build\Hydrator\RouteNavigationItem
+    everlution.navigation.hydrator.route_item:
+        class: Everlution\Navigation\Factory\Build\Hydrator\Item\RouteConfig
+        public: false
 
-    everlution.navigation.hydrator.regex_navigation_item:
-        class: Everlution\Navigation\Factory\Build\Hydrator\RegexNavigationItem
+    everlution.navigation.hydrator.exact_match:
+        class: Everlution\Navigation\Factory\Build\Hydrator\Match\ExactConfig
+        public: false
+
+    everlution.navigation.hydrator.prefix_match:
+        class: Everlution\Navigation\Factory\Build\Hydrator\Match\PrefixConfig
+        public: false
+
+    everlution.navigation.hydrator.regex_match:
+        class: Everlution\Navigation\Factory\Build\Hydrator\Match\RegexConfig
+        public: false
 
     # registry
-    everlution.navigation.register:
+    everlution.navigation.registry:
         class: Everlution\Navigation\Registry\NavigationRegistry
+        calls:
+            - ['register', ['@everlution.navigation.yaml_navigation_provider']]
 
     # voters
     everlution.navigation.uri_voter:
         class: Everlution\NavigationBundle\Voter\UriVoter
+        public: false
         arguments:
             - '@request_stack'
+            - ['@everlution.navigation.exact_voter', '@everlution.navigation.prefix_voter', '@everlution.navigation.regex_voter']
 
     everlution.navigation.route_voter:
         class: Everlution\NavigationBundle\Voter\RouteVoter
+        public: false
         arguments:
             - '@request_stack'
+            - ['@everlution.navigation.exact_voter', '@everlution.navigation.prefix_voter', '@everlution.navigation.regex_voter']
+
+    everlution.navigation.exact_voter:
+        class: Everlution\Navigation\Voter\Exact\ExactVoter
+        public: false
 
     everlution.navigation.prefix_voter:
-        class: Everlution\NavigationBundle\Voter\PrefixVoter
-        arguments:
-            - '@request_stack'
+        class: Everlution\Navigation\Voter\Prefix\PrefixVoter
+        public: false
 
     everlution.navigation.regex_voter:
-        class: Everlution\NavigationBundle\Voter\RegexVoter
-        arguments:
-            - '@request_stack'
-
-    everlution.navigation.manual_voter:
-        class: Everlution\Navigation\Voter\ManualVoter
-        calls:
-            - ['addVoter', ['@everlution.navigation.uri_voter']]
-            - ['addVoter', ['@everlution.navigation.route_voter']]
-            - ['addVoter', ['@everlution.navigation.prefix_voter']]
-            - ['addVoter', ['@everlution.navigation.regex_voter']]
+        class: Everlution\Navigation\Voter\Regex\RegexVoter
+        public: false
 
     # matchers
-    everlution.navigation.uri_matcher:
-        class: Everlution\Navigation\Matcher\NavigationItemMatcher
+    everlution.navigation.matcher:
+        class: Everlution\NavigationBundle\Matcher\NavigationItemMatcher
         calls:
             - ['addVoter', ['@everlution.navigation.uri_voter']]
             - ['addVoter', ['@everlution.navigation.route_voter']]
-            - ['addVoter', ['@everlution.navigation.prefix_voter']]
-            - ['addVoter', ['@everlution.navigation.regex_voter']]
-            - ['addVoter', ['@everlution.navigation.manual_voter']]
+
+    # twig extension
+    everlution.navigation.twig_extension:
+        class: Everlution\NavigationBundle\Twig\NavigationExtension
+        public: false
+        arguments:
+            - '@everlution.navigation.registry'
+            - '@everlution.navigation.matcher'
+            - '@everlution.navigation.resolver'
+        tags:
+            - { name: twig.extension }
+
+    # resolver
+    everlution.navigation.resolver:
+        class: Everlution\NavigationBundle\Url\ResolverContainer
+        calls:
+            - ['addResolver', ['@everlution.navigation.url_resolver']]
+            - ['addResolver', ['@everlution.navigation.route_resolver']]
+
+    everlution.navigation.url_resolver:
+        class: Everlution\NavigationBundle\Url\UrlResolver
+        public: false
+
+    everlution.navigation.route_resolver:
+        class: Everlution\NavigationBundle\Url\RouteResolver
+        public: false
+        arguments:
+            - '@router'

@@ -5,7 +5,8 @@ declare(strict_types = 1);
 namespace Everlution\NavigationBundle\Factory;
 
 use Everlution\Navigation\Factory\NavigationItemFactory;
-use Everlution\Navigation\NavigationItem;
+use Everlution\Navigation\Factory\PropertyFactory;
+use Everlution\Navigation\RootNavigationItem;
 use Symfony\Component\Yaml\Parser;
 
 /**
@@ -19,8 +20,10 @@ class YamlNavigationItemFactory extends NavigationItemFactory
     /** @var Parser */
     private $parser;
 
-    public function __construct(Parser $parser, string $directory)
+    public function __construct(PropertyFactory $factory, Parser $parser, string $directory)
     {
+        parent::__construct($factory);
+
         if (false === file_exists($directory)) {
             throw new DirectoryNotExistException($directory);
         }
@@ -30,13 +33,13 @@ class YamlNavigationItemFactory extends NavigationItemFactory
     }
 
     /**
-     * @param NavigationItem $navigation
+     * @param RootNavigationItem $navigation
      * @return array
      * @throws FileNotExistException
      */
-    protected function getData(NavigationItem &$navigation): array
+    protected function getData(RootNavigationItem &$navigation): array
     {
-        $filename = $this->getFilename($navigation->getUri());
+        $filename = $this->getFilename($navigation->getIdentifier());
         if (false === file_exists($filename)) {
             throw new FileNotExistException($filename);
         }

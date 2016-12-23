@@ -4,36 +4,20 @@ declare(strict_types = 1);
 
 namespace Everlution\NavigationBundle\Voter;
 
-use Everlution\Navigation\NavigationItem;
-use Everlution\Navigation\Voter\StringVoter;
-use Everlution\Navigation\Voter\Voter;
-use Everlution\Navigation\RoutableItem;
+use Everlution\Navigation\Voter\Matchable;
 
 /**
  * Class RouteMatcher.
  * @author Ivan Barlog <ivan.barlog@everlution.sk>
  */
-class RouteVoter extends RequestAware implements Voter, StringVoter
+class RouteVoter extends RequestAwareVoter
 {
     /**
-     * @param NavigationItem $item
+     * @param Matchable $item
      * @return bool
      */
-    public function match(NavigationItem $item): bool
+    public function match(Matchable $item): bool
     {
-        if (!$item instanceof RoutableItem) {
-            return false;
-        }
-
-        return $this->matchString($item->getRoute());
-    }
-
-    /**
-     * @param string $value
-     * @return bool
-     */
-    public function matchString(string $value): bool
-    {
-        return$this->getRequest()->get('_route') === $value;
+        return $this->matches($this->getRequest()->get('_route'), $item);
     }
 }

@@ -17,7 +17,7 @@
         "symfony/routing": "^3.0",
         "symfony/security-core": "^3.0",
         "symfony/templating": "^3.0",
-        "everlutionsk/navigation": "^0.3"
+        "everlutionsk/navigation": "^0.4"
     },
     "license": "MIT",
     "authors": [

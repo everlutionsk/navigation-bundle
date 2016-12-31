@@ -4,8 +4,8 @@ services:
         class: Symfony\Component\Yaml\Parser
         public: false
 
-    everlution.navigation.yaml_navigation_provider:
-        class: Everlution\NavigationBundle\Provider\YamlNavigationProvider
+    everlution.navigation.navigation_provider:
+        class: Everlution\Navigation\Provider\NavigationProvider
         arguments:
             - '@everlution.navigation.item_factory'
         tags:
@@ -13,11 +13,9 @@ services:
 
     # factory
     everlution.navigation.item_factory:
-        class: Everlution\NavigationBundle\Factory\YamlNavigationItemFactory
+        class: Everlution\Navigation\Factory\NavigationItemFactory
         arguments:
             - '@everlution.navigation.match_factory'
-            - '@everlution.navigation.yaml_parser'
-            - '%everlution.navigation.yaml_dir%'
         calls:
             - ['addHydrator', ['@everlution.navigation.hydrator.url_item']]
             - ['addHydrator', ['@everlution.navigation.hydrator.route_item']]
@@ -60,7 +58,7 @@ services:
     everlution.navigation.registry:
         class: Everlution\Navigation\Registry\NavigationRegistry
         calls:
-            - ['register', ['@everlution.navigation.yaml_navigation_provider']]
+            - ['register', ['@everlution.navigation.navigation_provider']]
 
     # voters
     everlution.navigation.uri_voter:
@@ -104,8 +102,17 @@ services:
             - '@everlution.navigation.registry'
             - '@everlution.navigation.matcher'
             - '@everlution.navigation.resolver'
+        calls:
+            - ['addDataProvider', ['@everlution.navigation.yaml_data_provider']]
         tags:
             - { name: twig.extension }
+
+    # data provider
+    everlution.navigation.yaml_data_provider:
+        class: Everlution\NavigationBundle\DataProvider\YamlDataProvider
+        arguments:
+            - '@everlution.navigation.yaml_parser'
+            - '%everlution.navigation.yaml_dir%'
 
     # resolver
     everlution.navigation.resolver:

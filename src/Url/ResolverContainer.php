@@ -18,7 +18,7 @@ class ResolverContainer implements Resolver
     public function addResolver(Resolver $resolver)
     {
         if (in_array($resolver, $this->resolvers)) {
-            throw new \Exception();
+            throw new ResolverAlreadyRegistered($resolver);
         }
 
         $this->resolvers[] = $resolver;
@@ -40,6 +40,6 @@ class ResolverContainer implements Resolver
             }
         }
 
-        throw new \Exception();
+        throw new CannotResolveUrl();
     }
 }

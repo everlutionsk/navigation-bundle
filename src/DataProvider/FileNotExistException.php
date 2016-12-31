@@ -2,7 +2,7 @@
 
 declare(strict_types = 1);
 
-namespace Everlution\NavigationBundle\Factory;
+namespace Everlution\NavigationBundle\DataProvider;
 
 /**
  * Class FileNotExistException.

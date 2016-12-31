@@ -12,5 +12,10 @@ use Everlution\Navigation\Uri\Uri;
  */
 interface Resolver
 {
+    /**
+     * @param Uri $uri
+     * @return string
+     * @throws CannotResolveUrl
+     */
     public function getUrl(Uri &$uri);
 }

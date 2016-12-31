@@ -63,26 +63,73 @@ You can define your navigation within YAML file:
 # app/config/navigation/frontend.yml
 items:
     -
-        class: Everlution\Navigation\NavigationItem
+        class: Everlution\Navigation\Item\Url
         label: "Home"
-        identifier: "/"
+        url: "/"
     -
-        class: Everlution\Navigation\NavigationItem
+        class: Everlution\Navigation\Item\Url
+        label: "E-shop"
+        url: "/eshop"
+        children: # multi-level navigation
+            -
+                class: Everlution\Navigation\Item\Url
+                label: "First category"
+                url:  "/eshop/first-category"
+                children:
+                    -
+                        class: Everlution\Navigation\Item\Url
+                        label: "Subcategory"
+                        url: "/eshop/first-category/subcategory"
+            -
+                class: Everlution\Navigation\Item\Route
+                label: "Second category"
+                route: "eshop_second_category"
+                children:
+                    -
+                        class: Everlution\Navigation\Item\Url
+                        label: "First subcategory"
+                        url: "/eshop/second-category/first-subcategory"
+                    -
+                        class: Everlution\Navigation\Item\Url
+                        label: "Second subcategory"
+                        url: "/eshop/second-category/second-subcategory"
+    -
+        class: Everlution\Navigation\Item\Url
         label: "Blog"
-        identifier: "/blog"
+        url: "/blog"
         children:
             -
-                class: Everlution\Navigation\NavigationItem
-                label: "First"
-                identifier: "/blog/first"
+                class: Everlution\Navigation\Item\Url
+                label: "ID with slug"
+                url: "/blog/xxx"
+                matches: # regex based match
+                    -
+                        class: Everlution\Navigation\Voter\Regex\RegexMatch
+                        pattern: ".*/[0-9]+-[a-z]+"
+                        modifiers: "xi"
             -
-                class: Everlution\Navigation\NavigationItem
+                class: Everlution\Navigation\Item\Url
                 label: "Second"
-                identifier: "/blog/second"
+                url: "/blog/second"
+                matches: # multiple matches
+                    -
+                        class: Everlution\Navigation\Voter\Prefix\PrefixMatch
+                        prefix: "/blog/second"
+                    -
+                        class: Everlution\Navigation\Voter\Prefix\PrefixMatch
+                        prefix: "/blog/2nd"
     -
-        class: Everlution\Navigation\NavigationItem
+        class: Everlution\Navigation\Item\Url
         label: "Contact"
-        identifier: "/contact"
+        url: "/contact"
+        matches:
+            -
+                class: Everlution\Navigation\Voter\Exact\ExactMatch
+                prefix: "/contact-us"
+            -
+                class: Everlution\Navigation\Voter\Regex\RegexMatch
+                pattern: "^.*ont.*$"
+                modifiers: "i"
 ```
 
 After creating the provider you can access the Navigation via NavigationRegister which is defined
@@ -100,8 +147,61 @@ $register = $this
 $navigation = $register->getNavigation('frontend', 'Frontend navigation');
 ```
 
+## Rendering
+
+The bundle provides basic Twig extension and YAML data provider so you can define
+your navigation within YAML file and start to use it right away with registered extension:
+
+```twig
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    
+    <!-- ... -->
+    
+    <link rel="stylesheet" href="//maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
+
+    <!--[if lt IE 9]>
+    <script src="//oss.maxcdn.com/html5shiv/3.7.3/html5shiv.min.js"></script>
+    <script src="//oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
+    <![endif]-->
+</head>
+
+<body>
+<!-- render navigation which is defined by frontend.yml -->
+{{ render_navigation('frontend') }}
+<!-- render breadcrumbs for navigation defined by frontend.yml -->
+{{ render_breadcrumbs('frontend') }}
+
+<script src="//ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
+<script src="//maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa" crossorigin="anonymous"></script>
+</body>
+
+```
+
+There are default templates which can render navigation and breadcrumbs provided by this bundle
+and they are using Bootstrap so in order to use them properly you need to include bootstrap within
+your template as shown above.
+
+If you want to use custom template you can specify it as second optional parameter in both `render_navigation()`
+and `render_breadcrumb()` functions. If you decide to create your own custom template you 
+the following twig variables are available:
+
+```twig
+{# variables #}
+{{ items }} {# array which holds NavigationItems defined in frontend.yml #}
+
+{# functions #}
+{{ extension.getUrl(item) }} {# returns URL for NavigationItem #}
+{{ extension.isCurrent(item) }} {# checks wether the item is currently matched #}
+{{ extension.isAncestor(item) }} {# checks wether the item is ancestor of currently matched item #}
+```
+
+
 ## TODO
 
-- implement renderer(s)
-- implement TWIG extension for rendering navigation
-- implement NavigationItem which will use Symfony router for generating URIs
+- implement DoctrineDataProvider
+- implement navigation structure persistence (not just read the structure but also persist it back to YAML/database etc)
+- implement AuthenticationVoter eg. if the item should be rendered based on user role or current authentication context
+- implement simple Navigation builder

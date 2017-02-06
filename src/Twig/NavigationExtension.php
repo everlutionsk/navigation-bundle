@@ -28,8 +28,8 @@ class NavigationExtension extends \Twig_Extension
     private $registry;
     /** @var Matcher */
     private $matcher;
-    /** @var BasicNavigation */
-    private $navigation;
+    /** @var BasicNavigation[] */
+    private $navigationMap = [];
     /** @var Resolver */
     private $resolver;
     /** @var DataProvider[] */
@@ -68,7 +68,11 @@ class NavigationExtension extends \Twig_Extension
     ): string {
         return $environment->render(
             $template,
-            ['items' => $this->getNavigation($identifier)->getRoot()->getChildren(), 'extension' => $this]
+            [
+                'items' => $this->getNavigation($identifier)->getRoot()->getChildren(),
+                'extension' => $this,
+                'identifier' => $identifier,
+            ]
         );
     }
 
@@ -79,7 +83,11 @@ class NavigationExtension extends \Twig_Extension
     ): string {
         return $environment->render(
             $template,
-            ['items' => $this->getNavigation($identifier)->getBreadcrumbs(), 'extension' => $this]
+            [
+                'items' => $this->getNavigation($identifier)->getBreadcrumbs(),
+                'extension' => $this,
+                'identifier' => $identifier,
+            ]
         );
     }
 
@@ -94,18 +102,18 @@ class NavigationExtension extends \Twig_Extension
         }
     }
 
-    public function isCurrent(NavigationItem $item): bool
+    public function isCurrent(NavigationItem $item, string $identifier): bool
     {
         try {
-            return $this->navigation->isCurrent($item);
+            return $this->getNavigation($identifier)->isCurrent($item);
         } catch (CurrentItemNotMatchedException $exception) {
             return false;
         }
     }
 
-    public function isAncestor(NavigationItem $item): bool
+    public function isAncestor(NavigationItem $item, string $identifier): bool
     {
-        return $this->navigation->isAncestor($item);
+        return $this->getNavigation($identifier)->isAncestor($item);
     }
 
     public function getFunctions()
@@ -130,11 +138,11 @@ class NavigationExtension extends \Twig_Extension
      */
     private function getNavigation(string $identifier): BasicNavigation
     {
-        if (false === $this->navigation instanceof BasicNavigation) {
-            $this->navigation = new BasicNavigation($this->getRoot($identifier), $this->matcher);
+        if (false === array_key_exists($identifier, $this->navigationMap)) {
+            $this->navigationMap[$identifier] = new BasicNavigation($this->getRoot($identifier), $this->matcher);
         }
 
-        return $this->navigation;
+        return $this->navigationMap[$identifier];
     }
 
     /**

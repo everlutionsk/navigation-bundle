@@ -1,20 +1,20 @@
 <ul class="nav nav-tabs">
     {% for item in items %}
         {% if item.children|length > 0 %}
-            <li role="presentation" class="dropdown{% if extension.isCurrent(item) or extension.isAncestor(item) %} active{% endif %}">
+            <li role="presentation" class="dropdown{% if extension.isCurrent(item, identifier) or extension.isAncestor(item, identifier) %} active{% endif %}">
                 <a class="dropdown-toggle" data-toggle="dropdown" href="#" role="button" aria-haspopup="true" aria-expanded="false">
                     {{ item.label }} <span class="caret"></span>
                 </a>
                 <ul class="dropdown-menu">
                     {% for child in item.children %}
-                        <li role="presentation"{% if extension.isCurrent(child) or extension.isAncestor(child) %} class="active"{% endif %}>
+                        <li role="presentation"{% if extension.isCurrent(child, identifier) or extension.isAncestor(child, identifier) %} class="active"{% endif %}>
                             <a href="{{ extension.getUrl(child) }}">{{ child.label }}</a>
                         </li>
                     {% endfor %}
                 </ul>
             </li>
         {% else %}
-            <li role="presentation"{% if extension.isCurrent(item) or extension.isAncestor(item) %} class="active"{% endif %}><a href="{{ extension.getUrl(item) }}">{{ item.label }}</a></li>
+            <li role="presentation"{% if extension.isCurrent(item, identifier) or extension.isAncestor(item, identifier) %} class="active"{% endif %}><a href="{{ extension.getUrl(item) }}">{{ item.label }}</a></li>
         {% endif %}
     {% endfor %}
 </ul>

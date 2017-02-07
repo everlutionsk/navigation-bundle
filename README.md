@@ -70,6 +70,14 @@ items:
         class: Everlution\Navigation\Item\Url
         label: "E-shop"
         url: "/eshop"
+        attributes:
+           class: "dropdown-btn"
+           image: "image.png"
+           image_alt: "An image"
+           image_class: "profile-image"
+           icon_class: "material-icons right"
+           icon_content: "arrow_drop_down"
+           dropdown_id: "dropdown-top-nav"
         children: # multi-level navigation
             -
                 class: Everlution\Navigation\Item\Url
@@ -173,6 +181,8 @@ your navigation within YAML file and start to use it right away with registered 
 {{ render_navigation('frontend') }}
 <!-- render breadcrumbs for navigation defined by frontend.yml -->
 {{ render_breadcrumbs('frontend') }}
+<!-- render navigation configured by top_nav.yml using template defined in Resources\Navigation\tab_nav.html.twig -->
+{{ render_navigation('tab_nav', "AppBundle::Navigation/top_nav.html.twig") }}
 
 <script src="//ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
 <script src="//maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa" crossorigin="anonymous"></script>
@@ -185,8 +195,8 @@ and they are using Bootstrap so in order to use them properly you need to includ
 your template as shown above.
 
 If you want to use custom template you can specify it as second optional parameter in both `render_navigation()`
-and `render_breadcrumb()` functions. If you decide to create your own custom template you 
-the following twig variables are available:
+and `render_breadcrumb()` functions. You can use any number of navigations you like. If you decide to create your own 
+custom template the following twig variables are available:
 
 ```twig
 {# variables #}
@@ -194,9 +204,10 @@ the following twig variables are available:
 
 {# functions #}
 {{ extension.getUrl(item) }} {# returns URL for NavigationItem #}
-{{ extension.isCurrent(item) }} {# checks wether the item is currently matched #}
-{{ extension.isAncestor(item) }} {# checks wether the item is ancestor of currently matched item #}
-```
+{{ extension.isCurrent(item, identifier) }} {# checks wether the item is currently matched #}
+{{ extension.isAncestor(item, identifier) }} {# checks wether the item is ancestor of currently matched item #}
+{{ item.attributes.<attribute> }} {# use item.attributes to pass any attributes you need from configuration to template #}
+```   
 
 
 ## TODO

@@ -138,6 +138,17 @@ items:
                 class: Everlution\Navigation\Voter\Regex\RegexMatch
                 pattern: "^.*ont.*$"
                 modifiers: "i"
+    -
+        class: Everlution\Navigation\Item\Url
+        label: "Admin"
+        url: "/admin"
+        roles: [ROLE_USER, ROLE_API]
+        children:
+            -
+                class: Everlution\Navigation\Item\Url
+                label: "Secret"
+                url: "/admin/secret"
+                roles: ROLE_ADMIN
 ```
 
 After creating the provider you can access the Navigation via NavigationRegister which is defined
@@ -165,9 +176,9 @@ your navigation within YAML file and start to use it right away with registered 
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    
+
     <!-- ... -->
-    
+
     <link rel="stylesheet" href="//maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
 
     <!--[if lt IE 9]>
@@ -195,7 +206,7 @@ and they are using Bootstrap so in order to use them properly you need to includ
 your template as shown above.
 
 If you want to use custom template you can specify it as second optional parameter in both `render_navigation()`
-and `render_breadcrumb()` functions. You can use any number of navigations you like. If you decide to create your own 
+and `render_breadcrumb()` functions. You can use any number of navigations you like. If you decide to create your own
 custom template the following twig variables are available:
 
 ```twig
@@ -207,7 +218,7 @@ custom template the following twig variables are available:
 {{ extension.isCurrent(item, identifier) }} {# checks wether the item is currently matched #}
 {{ extension.isAncestor(item, identifier) }} {# checks wether the item is ancestor of currently matched item #}
 {{ item.attributes.<attribute> }} {# use item.attributes to pass any attributes you need from configuration to template #}
-```   
+```
 
 
 ## TODO

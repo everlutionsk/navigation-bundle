@@ -16,6 +16,7 @@ services:
         class: Everlution\Navigation\Factory\NavigationItemFactory
         arguments:
             - '@everlution.navigation.match_factory'
+            - '@everlution.navigation.filter_container'
         calls:
             - ['addHydrator', ['@everlution.navigation.hydrator.url_item']]
             - ['addHydrator', ['@everlution.navigation.hydrator.route_item']]
@@ -130,3 +131,15 @@ services:
         public: false
         arguments:
             - '@router'
+
+    everlution.navigation.filter.role:
+        class: Everlution\NavigationBundle\Filter\RoleFilter
+        public: false
+        arguments:
+            - '@security.authorization_checker'
+
+    everlution.navigation.filter_container:
+        class: Everlution\Navigation\Filter\FilterContainer
+        public: false
+        calls:
+            - ['addFilter', ['@everlution.navigation.filter.role']]

@@ -16,23 +16,23 @@ class RoleFilter implements FilterInterface
     /**
      * @var AuthorizationCheckerInterface
      */
-    private $authChecker;
+    private $authorizationChecker;
 
     /**
-     * @param AuthorizationCheckerInterface $authChecker
+     * @param AuthorizationCheckerInterface $authorizationChecker
      */
-    public function __construct(AuthorizationCheckerInterface $authChecker)
+    public function __construct(AuthorizationCheckerInterface $authorizationChecker)
     {
-        $this->authChecker = $authChecker;
+        $this->authorizationChecker = $authorizationChecker;
     }
 
     /**
      * @param Item $item
      * @return bool
      */
-    public function filterOut(Item $item): bool
+    public function shouldFilterOut(Item $item): bool
     {
-        return !$this->authChecker->isGranted($item->getRoles());
+        return false === $this->authorizationChecker->isGranted($item->getRoles());
     }
 
     /**
@@ -41,6 +41,6 @@ class RoleFilter implements FilterInterface
      */
     public function isApplicable(Item $item): bool
     {
-        return !empty($item->getRoles());
+        return false === empty($item->getRoles());
     }
 }

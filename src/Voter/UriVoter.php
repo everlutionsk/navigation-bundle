@@ -18,6 +18,6 @@ class UriVoter extends RequestAwareVoter
      */
     public function match(Matchable $item): bool
     {
-        return $this->matches($this->getRequest()->getRequestUri(), $item);
+        return $this->matches($this->getRequest()->getPathInfo(), $item);
     }
 }

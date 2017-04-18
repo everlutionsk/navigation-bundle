@@ -4,6 +4,7 @@ declare(strict_types = 1);
 
 namespace Everlution\NavigationBundle;
 
+use Everlution\NavigationBundle\DependencyInjection\Compiler\FilterContainerCompilerPass;
 use Everlution\NavigationBundle\DependencyInjection\Compiler\NavigationProviderCompilerPass;
 use Symfony\Component\DependencyInjection\ContainerBuilder;
 use Symfony\Component\HttpKernel\Bundle\Bundle;
@@ -18,5 +19,6 @@ class EverlutionNavigationBundle extends Bundle
     {
         parent::build($container);
         $container->addCompilerPass(new NavigationProviderCompilerPass());
+        $container->addCompilerPass(new FilterContainerCompilerPass());
     }
 }

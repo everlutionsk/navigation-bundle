@@ -137,9 +137,9 @@ services:
         public: false
         arguments:
             - '@security.authorization_checker'
+        tags:
+            - { name: everlution.navigation.filter_container }
 
     everlution.navigation.filter_container:
         class: Everlution\Navigation\Filter\FilterContainer
         public: false
-        calls:
-            - ['addFilter', ['@everlution.navigation.filter.role']]

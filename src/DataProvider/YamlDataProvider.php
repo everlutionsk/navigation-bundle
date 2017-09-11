@@ -5,8 +5,6 @@ declare(strict_types = 1);
 namespace Everlution\NavigationBundle\DataProvider;
 
 use Everlution\Navigation\Provider\DataProvider;
-use Everlution\NavigationBundle\DataProvider\DirectoryNotExistException;
-use Everlution\NavigationBundle\DataProvider\FileNotExistException;
 use Symfony\Component\Yaml\Parser;
 
 /**

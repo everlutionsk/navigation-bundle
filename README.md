@@ -39,13 +39,14 @@ Where will be the navigation definitions loaded from:
 
 ```yaml
 everlution_navigation:
+    disable_yaml_provider: true|false # false is default value - if you set this to true the YAML data provider will be disabled - you will need to implement custom provider
     yaml_dir: '%kernel.root_dir%/config/navigation' # this is default value
 ```
 
 
 ## Usage
 
-You can create either dynamic navigations by extending `Everlution\Navigation\Provider\NavigationProvider`
+You can create either dynamic navigations by implementing `Everlution\Navigation\Provider\Provider`
 and registering it within container as tagged service:
 
 ```yaml
@@ -53,6 +54,18 @@ app.navigation.your_navigation:
     class: Path\To\Your\Provider
     tags:
         - { name: everlution.navigation_provider }
+```
+
+OR
+
+You can create just new data provider by implementing `Everlution\Navigation\Provider\DataProvider`
+and registering it within container as tageed service - this will be added to the Navigation TWIG extension:
+
+```yaml
+app.navigation.your_data_provider:
+    class: Path\To\Your\Data\Provider
+    tags:
+        - { name: everlution.navigation_data_provider }
 ```
 
 OR

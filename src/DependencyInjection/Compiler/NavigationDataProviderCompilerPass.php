@@ -10,21 +10,21 @@ use Symfony\Component\DependencyInjection\Definition;
 use Symfony\Component\DependencyInjection\Reference;
 
 /**
- * Class NavigationProviderCompilerPass.
+ * Class NavigationDataProviderCompilerPass.
  * @author Ivan Barlog <ivan.barlog@everlution.sk>
  */
-class NavigationProviderCompilerPass implements CompilerPassInterface
+class NavigationDataProviderCompilerPass implements CompilerPassInterface
 {
-    const PROVIDER_TAG = 'everlution.navigation_provider';
-    const NAVIGATION_REGISTER_SERVICE = 'everlution.navigation.registry';
+    const PROVIDER_TAG = 'everlution.navigation_data_provider';
+    const NAVIGATION_TWIG_SERVICE = 'everlution.navigation.twig_extension';
 
     public function process(ContainerBuilder $container)
     {
-        if (false === $container->has(self::NAVIGATION_REGISTER_SERVICE)) {
+        if (false === $container->has(self::NAVIGATION_TWIG_SERVICE)) {
             return;
         }
 
-        $definition = $container->findDefinition(self::NAVIGATION_REGISTER_SERVICE);
+        $definition = $container->findDefinition(self::NAVIGATION_TWIG_SERVICE);
         $this->addProviders($container, $definition);
     }
 
@@ -33,7 +33,7 @@ class NavigationProviderCompilerPass implements CompilerPassInterface
         $providers = $container->findTaggedServiceIds(self::PROVIDER_TAG);
 
         foreach ($providers as $id => $provider) {
-            $definition->addMethodCall('register', [new Reference($id)]);
+            $definition->addMethodCall('addDataProvider', [new Reference($id)]);
         }
     }
 }

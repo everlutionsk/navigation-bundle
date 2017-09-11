@@ -1,9 +1,10 @@
 <?php
 
-declare(strict_types = 1);
+declare(strict_types=1);
 
 namespace Everlution\NavigationBundle\DependencyInjection;
 
+use Everlution\NavigationBundle\DataProvider\YamlDataProvider;
 use Symfony\Component\Config\FileLocator;
 use Symfony\Component\DependencyInjection\ContainerBuilder;
 use Symfony\Component\DependencyInjection\Extension\Extension;
@@ -19,7 +20,11 @@ class EverlutionNavigationExtension extends Extension
     {
         $configuration = new Configuration();
         $config = $this->processConfiguration($configuration, $configs);
-        $container->setParameter('everlution.navigation.yaml_dir', $config['yaml_dir']);
+
+        if ($config['disable_yaml_provider']) {
+            $container->setParameter('everlution.navigation.yaml_dir', $config['yaml_dir']);
+            $container->autowire(YamlDataProvider::class)->addTag('everlution.navigation_data_provider');
+        }
 
         $loader = new YamlFileLoader($container, new FileLocator(__DIR__.'/../Resources/config'));
         $loader->load('services.yml');

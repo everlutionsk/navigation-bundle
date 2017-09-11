@@ -20,8 +20,8 @@ class Configuration implements ConfigurationInterface
 
         $rootNode
             ->children()
-                ->scalarNode('yaml_dir')
-                ->defaultValue('%kernel.root_dir%/config/navigation')
+                ->booleanNode('disable_yaml_provider')->defaultFalse()->end()
+                ->scalarNode('yaml_dir')->defaultValue('%kernel.root_dir%/config/navigation')->end()
             ->end();
 
         return $treeBuilder;

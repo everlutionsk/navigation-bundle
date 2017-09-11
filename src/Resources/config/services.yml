@@ -58,8 +58,6 @@ services:
     # registry
     everlution.navigation.registry:
         class: Everlution\Navigation\Registry\NavigationRegistry
-        calls:
-            - ['register', ['@everlution.navigation.navigation_provider']]
 
     # voters
     everlution.navigation.uri_voter:
@@ -103,17 +101,8 @@ services:
             - '@everlution.navigation.registry'
             - '@everlution.navigation.matcher'
             - '@everlution.navigation.resolver'
-        calls:
-            - ['addDataProvider', ['@everlution.navigation.yaml_data_provider']]
         tags:
             - { name: twig.extension }
-
-    # data provider
-    everlution.navigation.yaml_data_provider:
-        class: Everlution\NavigationBundle\DataProvider\YamlDataProvider
-        arguments:
-            - '@everlution.navigation.yaml_parser'
-            - '%everlution.navigation.yaml_dir%'
 
     # resolver
     everlution.navigation.resolver:

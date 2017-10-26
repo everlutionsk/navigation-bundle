@@ -41,7 +41,7 @@ Where will be the navigation definitions loaded from:
 everlution_navigation:
     disable_yaml_provider: true|false # false is default value - if you set this to true the YAML data provider will be disabled - you will need to implement custom provider
     yaml_dir: '%kernel.root_dir%/config/navigation' # this is default value
-    yaml_filename_extension: 'yaml' # this is default value
+    yaml_filename_extension: 'yml' # this is default value
 ```
 
 

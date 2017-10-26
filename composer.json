@@ -18,7 +18,7 @@
         "symfony/security-core": "^3.0|^4.0",
         "symfony/templating": "^3.0|^4.0",
         "symfony/twig-bundle": "^3.0|^4.0",
-        "everlutionsk/navigation": "^0.6"
+        "everlutionsk/navigation": "feature-symfony4beta"
     },
     "license": "MIT",
     "authors": [

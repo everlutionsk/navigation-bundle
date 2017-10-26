@@ -22,7 +22,7 @@ class Configuration implements ConfigurationInterface
             ->children()
             ->booleanNode('disable_yaml_provider')->defaultFalse()->end()
             ->scalarNode('yaml_dir')->defaultValue('%kernel.root_dir%/config/navigation')->end()
-            ->scalarNode('yaml_filename_extension')->defaultValue('yml')->end()
+            ->scalarNode('yaml_filename_extension')->defaultValue('yaml')->end()
             ->end();
 
         return $treeBuilder;

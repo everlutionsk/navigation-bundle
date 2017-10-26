@@ -17,8 +17,10 @@ class YamlDataProvider implements DataProvider
     private $directory;
     /** @var Parser */
     private $parser;
+    /** @var string */
+    private $yamlExtensionType;
 
-    public function __construct(Parser $parser, string $directory)
+    public function __construct(Parser $parser, string $directory, string $yamlExtensionType)
     {
         if (false === $this->exists($directory)) {
             throw new DirectoryNotExistException($directory);
@@ -26,6 +28,7 @@ class YamlDataProvider implements DataProvider
 
         $this->directory = $directory;
         $this->parser = $parser;
+        $this->yamlExtensionType = $yamlExtensionType;
     }
 
     /**
@@ -63,6 +66,6 @@ class YamlDataProvider implements DataProvider
 
     private function getFilename(string $name): string
     {
-        return sprintf('%s/%s.yml', $this->directory, $name);
+        return sprintf('%s/%s.%s', $this->directory, $name, $this->yamlExtensionType);
     }
 }

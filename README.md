@@ -1,5 +1,8 @@
 # Navigation Bundle
 
+[![Scrutinizer Code Quality](https://scrutinizer-ci.com/g/everlutionsk/navigation-bundle/badges/quality-score.png?b=master)](https://scrutinizer-ci.com/g/everlutionsk/navigation-bundle/?branch=master)
+[![Build Status](https://scrutinizer-ci.com/g/everlutionsk/navigation-bundle/badges/build.png?b=master)](https://scrutinizer-ci.com/g/everlutionsk/navigation-bundle/build-status/master)
+
 EverlutionNavigationBundle is Symfony Bundle for rendering multiple navigation instances registered dynamically by tagged services.
 
 If you are looking just for Navigation library check out 

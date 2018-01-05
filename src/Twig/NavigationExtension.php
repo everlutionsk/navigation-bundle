@@ -5,11 +5,6 @@ declare(strict_types=1);
 namespace Everlution\NavigationBundle\Twig;
 
 use Everlution\Navigation\Builder\NoCurrentItemFoundException;
-use Everlution\Navigation\Builder\ParentNode;
-use Everlution\Navigation\Item\ItemInterface;
-use Everlution\Navigation\Item\ItemLabel;
-use Everlution\Navigation\Item\ItemLabelInterface;
-use Everlution\Navigation\Item\ShownItemTrait;
 use Twig\Environment;
 
 /**
@@ -79,18 +74,7 @@ class NavigationExtension extends \Twig_Extension
         try {
             $items = $this->helper->getNavigation($identifier)->getBreadcrumbs();
         } catch (NoCurrentItemFoundException $exception) {
-            $items = [
-                new ParentNode(
-                    new class() implements ItemInterface {
-                        use ShownItemTrait;
-
-                        public function getLabel(): ItemLabelInterface
-                        {
-                            return new ItemLabel('missing breadcrumbs');
-                        }
-                    }
-                ),
-            ];
+            return 'missing breadcrumbs';
         }
 
         return $environment->render(

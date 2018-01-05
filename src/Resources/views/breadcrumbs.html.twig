@@ -1,9 +1,0 @@
-<ol class="breadcrumb">
-    {% for item in items %}
-        {% if loop.last %}
-            <li class="active">{{ item.label }}</li>
-        {% else %}
-            <li><a href="{{ extension.getUrl(item) }}">{{ item.label }}</a></li>
-        {% endif %}
-    {% endfor %}
-</ol>

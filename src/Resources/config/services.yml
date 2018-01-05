@@ -1,134 +1,38 @@
 services:
-    # general
-    everlution.navigation.yaml_parser:
-        class: Symfony\Component\Yaml\Parser
+    _defaults:
+        autowire: true
+        autoconfigure: true
         public: false
 
-    everlution.navigation.navigation_provider:
-        class: Everlution\Navigation\Provider\NavigationProvider
-        arguments:
-            - '@everlution.navigation.item_factory'
-        tags:
-            - { name: everlution.navigation_provider }
-
-    # factory
-    everlution.navigation.item_factory:
-        class: Everlution\Navigation\Factory\NavigationItemFactory
-        arguments:
-            - '@everlution.navigation.match_factory'
-            - '@everlution.navigation.filter_container'
-        calls:
-            - ['addHydrator', ['@everlution.navigation.hydrator.url_item']]
-            - ['addHydrator', ['@everlution.navigation.hydrator.route_item']]
-
-
-    everlution.navigation.match_factory:
-        class: Everlution\Navigation\Factory\MatchFactory
-        public: false
-        calls:
-            - ['addHydrator', ['@everlution.navigation.hydrator.exact_match']]
-            - ['addHydrator', ['@everlution.navigation.hydrator.prefix_match']]
-            - ['addHydrator', ['@everlution.navigation.hydrator.regex_match']]
-
-    # hydrators
-    everlution.navigation.hydrator.navigation_item:
-        class: Everlution\Navigation\Factory\Build\Hydrator\Item
-        public: false
-
-    everlution.navigation.hydrator.url_item:
-        class: Everlution\Navigation\Factory\Build\Hydrator\Item\UrlConfig
-        public: false
-
-    everlution.navigation.hydrator.route_item:
-        class: Everlution\Navigation\Factory\Build\Hydrator\Item\RouteConfig
-        public: false
-
-    everlution.navigation.hydrator.exact_match:
-        class: Everlution\Navigation\Factory\Build\Hydrator\Match\ExactConfig
-        public: false
-
-    everlution.navigation.hydrator.prefix_match:
-        class: Everlution\Navigation\Factory\Build\Hydrator\Match\PrefixConfig
-        public: false
-
-    everlution.navigation.hydrator.regex_match:
-        class: Everlution\Navigation\Factory\Build\Hydrator\Match\RegexConfig
-        public: false
-
-    # registry
-    everlution.navigation.registry:
-        class: Everlution\Navigation\Registry\NavigationRegistry
-
-    # voters
-    everlution.navigation.uri_voter:
-        class: Everlution\NavigationBundle\Voter\UriVoter
-        public: false
+    Everlution\NavigationBundle\Bridge\Item\RequestAttributesContainer:
         arguments:
             - '@request_stack'
-            - ['@everlution.navigation.exact_voter', '@everlution.navigation.prefix_voter', '@everlution.navigation.regex_voter']
 
-    everlution.navigation.route_voter:
-        class: Everlution\NavigationBundle\Voter\RouteVoter
-        public: false
+    Everlution\Navigation\Registry: ~
+    Everlution\Navigation\Url\UrlProviderContainer: ~
+    Everlution\NavigationBundle\Bridge\NavigationAliasContainer: ~
+    Everlution\NavigationBundle\Bridge\Matcher:
         arguments:
             - '@request_stack'
-            - ['@everlution.navigation.exact_voter', '@everlution.navigation.prefix_voter', '@everlution.navigation.regex_voter']
+            - '@Everlution\Navigation\Match\VoterContainer'
 
-    everlution.navigation.exact_voter:
-        class: Everlution\Navigation\Voter\Exact\ExactVoter
-        public: false
-
-    everlution.navigation.prefix_voter:
-        class: Everlution\Navigation\Voter\Prefix\PrefixVoter
-        public: false
-
-    everlution.navigation.regex_voter:
-        class: Everlution\Navigation\Voter\Regex\RegexVoter
-        public: false
-
-    # matchers
-    everlution.navigation.matcher:
-        class: Everlution\NavigationBundle\Matcher\NavigationItemMatcher
-        calls:
-            - ['addVoter', ['@everlution.navigation.uri_voter']]
-            - ['addVoter', ['@everlution.navigation.route_voter']]
+    Everlution\NavigationBundle\Bridge\Url\UrlProvider:
+        arguments:
+            - '@everlution.navigation_router'
+        tags: ['everlution.url_provider']
 
     # twig extension
-    everlution.navigation.twig_extension:
-        class: Everlution\NavigationBundle\Twig\NavigationExtension
-        public: false
+    Everlution\NavigationBundle\Twig\NavigationHelper: ~
+    Everlution\NavigationBundle\Twig\NavigationExtension:
         arguments:
-            - '@everlution.navigation.registry'
-            - '@everlution.navigation.matcher'
-            - '@everlution.navigation.resolver'
-        tags:
-            - { name: twig.extension }
+            - '@Everlution\NavigationBundle\Twig\NavigationHelper'
+        tags: ['twig.extension']
 
-    # resolver
-    everlution.navigation.resolver:
-        class: Everlution\NavigationBundle\Url\ResolverContainer
-        calls:
-            - ['addResolver', ['@everlution.navigation.url_resolver']]
-            - ['addResolver', ['@everlution.navigation.route_resolver']]
-
-    everlution.navigation.url_resolver:
-        class: Everlution\NavigationBundle\Url\UrlResolver
-        public: false
-
-    everlution.navigation.route_resolver:
-        class: Everlution\NavigationBundle\Url\RouteResolver
-        public: false
-        arguments:
-            - '@router'
-
-    everlution.navigation.filter.role:
-        class: Everlution\NavigationBundle\Filter\RoleFilter
-        public: false
-        arguments:
-            - '@security.authorization_checker'
-        tags:
-            - { name: everlution.navigation.filter_container }
-
-    everlution.navigation.filter_container:
-        class: Everlution\Navigation\Filter\FilterContainer
-        public: false
+    # match voters
+    Everlution\Navigation\Match\VoterContainer: ~
+    Everlution\Navigation\Match\Voter\ExactMatchVoter:
+        tags: ['everlution.match_voter']
+    Everlution\Navigation\Match\Voter\PrefixMatchVoter:
+        tags: ['everlution.match_voter']
+    Everlution\Navigation\Match\Voter\RegexMatchVoter:
+        tags: ['everlution.match_voter']

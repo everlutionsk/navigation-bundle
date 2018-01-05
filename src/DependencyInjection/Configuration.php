@@ -1,6 +1,6 @@
 <?php
 
-declare(strict_types = 1);
+declare(strict_types=1);
 
 namespace Everlution\NavigationBundle\DependencyInjection;
 
@@ -9,10 +9,13 @@ use Symfony\Component\Config\Definition\ConfigurationInterface;
 
 /**
  * Class Configuration.
+ *
  * @author Ivan Barlog <ivan.barlog@everlution.sk>
  */
 class Configuration implements ConfigurationInterface
 {
+    const CONFIG_ROUTER_SERVICE = 'router_service';
+
     public function getConfigTreeBuilder()
     {
         $treeBuilder = new TreeBuilder();
@@ -20,9 +23,7 @@ class Configuration implements ConfigurationInterface
 
         $rootNode
             ->children()
-            ->booleanNode('disable_yaml_provider')->defaultFalse()->end()
-            ->scalarNode('yaml_dir')->defaultValue('%kernel.root_dir%/config/navigation')->end()
-            ->scalarNode('yaml_filename_extension')->defaultValue('yml')->end()
+                ->scalarNode(self::CONFIG_ROUTER_SERVICE)->defaultValue('router.default')->end()
             ->end();
 
         return $treeBuilder;

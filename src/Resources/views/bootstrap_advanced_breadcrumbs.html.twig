@@ -1,0 +1,25 @@
+<nav aria-label="breadcrumb">
+    <ol class="breadcrumb">
+        {% for node in items %}
+            {% set item = node.item %}
+            {% if loop.last %}
+                <li class="breadcrumb-item active" aria-current="page">{{ helper.getLabel(item) }}</li>
+            {% else %}
+                {% if node.hasChildren %}
+                    <li class="breadcrumb-item dropdown">
+                        <a href="{{ item|url }}">{{ helper.getLabel(item) }}</a>
+                        <a class="nav-link dropdown-toggle" data-toggle="dropdown" href="#" role="button" aria-haspopup="true"
+                           aria-expanded="false">&dtrif;</a>
+                        <div class="dropdown-menu">
+                            {% for child in node.children %}
+                                <a class="dropdown-item{% if helper.isCurrent(identifier, child.item) %} active{% endif %}" href="{{ helper.getUrl(child.item) }}">{{ helper.getLabel(child.item) }}</a>
+                            {% endfor %}
+                        </div>
+                    </li>
+                {% else %}
+                    <li class="breadcrumb-item"><a href="{{ item|url }}">{{ helper.getLabel(item) }}</a></li>
+                {% endif %}
+            {% endif %}
+        {% endfor %}
+    </ol>
+</nav>

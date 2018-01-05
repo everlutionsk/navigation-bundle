@@ -1,0 +1,22 @@
+<ul class="nav nav-tabs">
+    {% for node in root.children if node.item.isHidden == false %}
+        {% set item = node.item %}
+        {% set active = helper.isCurrent(identifier, item) %}
+
+        {% if node.hasChildren %}
+            <li class="nav-item dropdown">
+                <a class="nav-link dropdown-toggle{% if active %} active{% endif %}" data-toggle="dropdown" href="#" role="button" aria-haspopup="true"
+                   aria-expanded="false">{{ helper.getLabel(item) }}</a>
+                <div class="dropdown-menu">
+                    {% for child in node.children %}
+                        <a class="dropdown-item{% if helper.isCurrent(identifier, child.item) %} active{% endif %}" href="{{ helper.getUrl(child.item) }}">{{ helper.getLabel(child.item) }}</a>
+                    {% endfor %}
+                </div>
+            </li>
+        {% else %}
+            <li class="nav-item">
+                <a href="{{ helper.getUrl(item) }}" class="nav-link{% if active %} active{% endif %}">{{ helper.getLabel(item.label) }}</a>
+            </li>
+        {% endif %}
+    {% endfor %}
+</ul>

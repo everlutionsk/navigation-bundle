@@ -1,17 +1,18 @@
 <?php
 
-declare(strict_types = 1);
+declare(strict_types=1);
 
 namespace Everlution\NavigationBundle;
 
-use Everlution\NavigationBundle\DependencyInjection\Compiler\FilterContainerCompilerPass;
-use Everlution\NavigationBundle\DependencyInjection\Compiler\NavigationDataProviderCompilerPass;
-use Everlution\NavigationBundle\DependencyInjection\Compiler\NavigationProviderCompilerPass;
+use Everlution\NavigationBundle\DependencyInjection\Compiler\RegistryCompilerPass;
+use Everlution\NavigationBundle\DependencyInjection\Compiler\UrlProviderCompilerPass;
+use Everlution\NavigationBundle\DependencyInjection\Compiler\VoterCompilerPass;
 use Symfony\Component\DependencyInjection\ContainerBuilder;
 use Symfony\Component\HttpKernel\Bundle\Bundle;
 
 /**
  * Class EverlutionNavigationBundle.
+ *
  * @author Ivan Barlog <ivan.barlog@everlution.sk>
  */
 class EverlutionNavigationBundle extends Bundle
@@ -19,8 +20,8 @@ class EverlutionNavigationBundle extends Bundle
     public function build(ContainerBuilder $container)
     {
         parent::build($container);
-        $container->addCompilerPass(new NavigationProviderCompilerPass());
-        $container->addCompilerPass(new NavigationDataProviderCompilerPass());
-        $container->addCompilerPass(new FilterContainerCompilerPass());
+        $container->addCompilerPass(new RegistryCompilerPass());
+        $container->addCompilerPass(new UrlProviderCompilerPass());
+        $container->addCompilerPass(new VoterCompilerPass());
     }
 }

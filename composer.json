@@ -8,7 +8,7 @@
         }
     },
     "require": {
-        "php": "^7.0",
+        "php": "^7.1",
         "symfony/framework-bundle": "^3.0|^4.0",
         "symfony/config": "^3.0|^4.0",
         "symfony/dependency-injection": "^3.0|^4.0",
@@ -18,7 +18,7 @@
         "symfony/security-bundle": "^3.0|^4.0",
         "symfony/templating": "^3.0|^4.0",
         "symfony/twig-bundle": "^3.0|^4.0",
-        "everlutionsk/navigation": "^0.6"
+        "everlutionsk/navigation": "^2.0"
     },
     "license": "MIT",
     "authors": [

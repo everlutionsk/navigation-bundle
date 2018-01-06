@@ -36,7 +36,7 @@ class Matcher implements MatcherInterface
         }
 
         // we search matches within URL and route
-        foreach ([$this->request->getPathInfo(), $this->request->get('_route')] as $url) {
+        foreach ([$this->request->getPathInfo(), $this->request->get('_route', '')] as $url) {
             if ($this->voter->matches($url, $item)) {
                 return true;
             }

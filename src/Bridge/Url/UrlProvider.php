@@ -25,7 +25,7 @@ class UrlProvider implements UrlProviderInterface
     }
 
     /**
-     * @param ItemInterface|RoutableInterface $item
+     * @param ItemInterface $item
      *
      * @return string
      *
@@ -33,7 +33,7 @@ class UrlProvider implements UrlProviderInterface
      */
     public function getUrl(ItemInterface $item): string
     {
-        if (false === $this->supports($item)) {
+        if (false === $item instanceof RoutableInterface) {
             throw new ItemIsNotSupportedException($item, RouterInterface::class);
         }
 

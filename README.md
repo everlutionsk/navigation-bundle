@@ -25,6 +25,7 @@ If you are looking just for Navigation library check out
   - [Adding nested items](#adding-nested-items)
   - [Rendering breadcrumbs](#rendering-breadcrumbs)
   - [Translating the item labels](#translating-the-item-labels)
+  - [Rendering single navigation item](#rendering-single-navigation-item)
 - [Troubleshooting](#troubleshooting)
 - [TO DO's](#to-dos)
 
@@ -555,6 +556,26 @@ class TranslatableLabelItem implements Everlution\Navigation\Item\ItemInterface
 navigation:
     translatable_label_item:
         label: 'Following parameter is provided by \ParameterProvider:  %first_parameter%'
+```
+
+### Rendering single navigation item
+
+If you want to render single navigation item in Twig template only thing you need to do is register your item which 
+implements `Everlution\Navigation\Item\ItemInterface` as service and tag it with `everlution.navigation_item` with 
+appropriate alias like you can see in example below.
+
+```yaml
+services:
+    AppBundle\Navigation\LogoutItem:
+        tags:
+            - { name: 'everlution.navigation_item', alias: 'logout_item' }
+```
+
+You can then call pre-defined Twig function when you will provide the alias of the registered item. Optionally you can 
+define Twig template which is provided for you by default.
+
+```twig
+{{ render_item('logout_item') }}
 ```
 
 ## Troubleshooting

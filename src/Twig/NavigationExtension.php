@@ -22,29 +22,6 @@ class NavigationExtension extends \Twig_Extension
         $this->helper = $helper;
     }
 
-    public function getFunctions()
-    {
-        return [
-            new \Twig_SimpleFunction(
-                'render_navigation',
-                [$this, 'renderNavigation'],
-                ['needs_environment' => true, 'is_safe' => ['html']]
-            ),
-            new \Twig_SimpleFunction(
-                'render_breadcrumbs',
-                [$this, 'renderBreadcrumbs'],
-                ['needs_environment' => true, 'is_safe' => ['html']]
-            ),
-        ];
-    }
-
-    public function getFilters()
-    {
-        return [
-            new \Twig_SimpleFilter('url', [$this->helper, 'getUrl']),
-        ];
-    }
-
     /**
      * {@inheritdoc}
      */
@@ -85,5 +62,28 @@ class NavigationExtension extends \Twig_Extension
                 'helper' => $this->helper,
             ]
         );
+    }
+
+    public function getFunctions()
+    {
+        return [
+            new \Twig_SimpleFunction(
+                'render_navigation',
+                [$this, 'renderNavigation'],
+                ['needs_environment' => true, 'is_safe' => ['html']]
+            ),
+            new \Twig_SimpleFunction(
+                'render_breadcrumbs',
+                [$this, 'renderBreadcrumbs'],
+                ['needs_environment' => true, 'is_safe' => ['html']]
+            ),
+        ];
+    }
+
+    public function getFilters()
+    {
+        return [
+            new \Twig_SimpleFilter('url', [$this->helper, 'getUrl']),
+        ];
     }
 }

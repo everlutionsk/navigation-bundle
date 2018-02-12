@@ -4,28 +4,24 @@ services:
         autoconfigure: true
         public: false
 
-    Everlution\NavigationBundle\Bridge\Item\RequestAttributesContainer:
-        arguments:
-            - '@request_stack'
+    Everlution\NavigationBundle\Bridge\Item\RequestAttributesContainer: ~
 
     Everlution\Navigation\Registry: ~
     Everlution\Navigation\Url\UrlProviderContainer: ~
     Everlution\NavigationBundle\Bridge\NavigationAliasContainer: ~
-    Everlution\NavigationBundle\Bridge\Matcher:
-        arguments:
-            - '@request_stack'
-            - '@Everlution\Navigation\Match\VoterContainer'
+    Everlution\NavigationBundle\Bridge\Matcher: ~
+    Everlution\NavigationBundle\Bridge\Item\Container\ItemContainer: ~
 
     Everlution\NavigationBundle\Bridge\Url\UrlProvider:
         arguments:
-            - '@everlution.navigation_router'
+            - '@everlution.navigation_router' # dynamic alias do not remove
         tags: ['everlution.url_provider']
 
     # twig extension
     Everlution\NavigationBundle\Twig\NavigationHelper: ~
     Everlution\NavigationBundle\Twig\NavigationExtension:
-        arguments:
-            - '@Everlution\NavigationBundle\Twig\NavigationHelper'
+        tags: ['twig.extension']
+    Everlution\NavigationBundle\Twig\ItemExtension:
         tags: ['twig.extension']
 
     # match voters

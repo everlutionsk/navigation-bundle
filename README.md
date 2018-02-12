@@ -25,6 +25,7 @@ If you are looking just for Navigation library check out
   - [Adding nested items](#adding-nested-items)
   - [Rendering breadcrumbs](#rendering-breadcrumbs)
   - [Translating the item labels](#translating-the-item-labels)
+- [Troubleshooting](#troubleshooting)
 - [TO DO's](#to-dos)
 
 ## Installation
@@ -554,6 +555,69 @@ class TranslatableLabelItem implements Everlution\Navigation\Item\ItemInterface
 navigation:
     translatable_label_item:
         label: 'Following parameter is provided by \ParameterProvider:  %first_parameter%'
+```
+
+## Troubleshooting
+
+### Alias is not registered when you registered it
+
+![Image of Yaktocat](doc/autowire-problem.png)
+
+Sometimes when you use Symfony's autowire functionality for easier registering of services exception depicted above may
+occur. In this case we have registered the `main_navigation` in external file `navigaiton.yml` which is being imported
+to main `services.yml`. Navigation items and navigations are implemented within `AppBundle\Navigation` namespace as you
+can see in following snippets.
+
+```yaml
+# app/config/services/navigation.yml
+
+services:
+    _defaults:
+        autowire: true
+        autoconfigure: true
+
+    # navigations
+    AppBundle\Navigation\MainNavigation:
+        tags:
+            - { name: 'everlution.navigation', alias: 'main_navigation' }
+```
+
+```yaml
+# app/config/services.yml
+
+imports:
+    - { resource: "services/navigation.yml" }
+
+services:
+    _defaults:
+        autowire: true
+        autoconfigure: true
+        public: false
+
+    AppBundle\:
+        resource: '../../src/AppBundle/*'
+        exclude: '../../src/AppBundle/{Entity,Repository,Tests}'
+
+    # ...
+
+```
+
+The problem here is that the tagged services from `navigation.yml` are being overwriteen by main autowire config without
+the tags before the bundle can collect the tagged services. The solution here is to exclude `AppBundle\Navigation` from
+default autowiring.
+
+```yaml
+# app/config/services.yml
+
+# ...
+
+services:
+    AppBundle\:
+        resource: '../../src/AppBundle/*'
+        exclude: '../../src/AppBundle/{Entity,Repository,Tests,Navigation}' # add Navigation here
+
+    # ...
+
 ```
 
 ## To Do's

@@ -15,7 +15,7 @@
             </li>
         {% else %}
             <li class="nav-item">
-                <a href="{{ helper.getUrl(item) }}" class="nav-link{% if active %} active{% endif %}">{{ helper.getLabel(item.label) }}</a>
+                <a href="{{ helper.getUrl(item) }}" class="nav-link{% if active %} active{% endif %}">{{ helper.getLabel(item) }}</a>
             </li>
         {% endif %}
     {% endfor %}

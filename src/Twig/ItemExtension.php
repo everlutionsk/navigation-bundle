@@ -10,6 +10,7 @@ use Twig\Environment;
 
 /**
  * Class ItemExtension.
+ *
  * @author Ivan Barlog <ivan.barlog@everlution.sk>
  */
 class ItemExtension extends \Twig_Extension

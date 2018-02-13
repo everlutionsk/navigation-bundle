@@ -6,6 +6,7 @@ namespace Everlution\NavigationBundle\Bridge\Item\Container;
 
 /**
  * Class ItemNotRegisteredException.
+ *
  * @author Ivan Barlog <ivan.barlog@everlution.sk>
  */
 class ItemNotRegisteredException extends \Exception

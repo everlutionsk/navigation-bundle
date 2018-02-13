@@ -17,11 +17,13 @@ If you are looking just for Navigation library check out
 - [Usage](#usage)
   - [Create navigation items](#create-navigation-items)
   - [Create container and register items](#create-container-and-register-items)
+  - [Register item to multiple containers from anywhere](#register-item-to-multiple-containers-from-anywhere)
   - [Rendering the navigation](#rendering-the-navigation)
   - [Adding route with parameters to navigation item](#adding-route-with-parameters-to-navigation-item)
   - [Adding dynamic parameters to item route](#adding-dynamic-parameters-to-item-route)
   - [Highlight the current item in navigation](#highlight-the-current-item-in-navigation)
   - [Filtering the navigation items](#filtering-the-navigation-items)
+  - [Sorting the navigation items](#sorting-the-navigation-items)
   - [Adding nested items](#adding-nested-items)
   - [Rendering breadcrumbs](#rendering-breadcrumbs)
   - [Translating the item labels](#translating-the-item-labels)
@@ -94,7 +96,7 @@ Example:
 class SampleItem implements Everlution\Navigation\Item\ItemInterface
 {
     use Everlution\Navigation\Item\ShownItemTrait;
-    
+
     public function getLabel(): \Everlution\Navigation\Item\ItemLabelInterface
     {
         return new \Everlution\Navigation\Item\ItemLabel('navigation.sample.label');
@@ -142,6 +144,45 @@ services:
 As you can see we tagged the service with `everlution.navigation` name and we also provided an alias which will help
 us reference the navigation in templates later.
 
+### Register item to multiple containers from anywhere
+
+There are times when you want to register your item to multiple navigation instances at once or you just want to register
+your items automatically to some navigation by for instance loading different Symfony bundles. To do this only thing you
+need to do is for your navigation item to implement `Everlution\Navigation\Item\RegistrableItemInterface`. By implementing
+this interface you are providing list of navigation aliases/FQCNs where you want the item to appear.
+
+```php
+<?php
+
+class ProductsItem implements Everlution\Navigation\Item\ItemInterface, Everlution\Navigation\Item\RegistrableItemInterface
+{
+    use Everlution\Navigation\Item\ShownItemTrait;
+
+    public function getLabel(): \Everlution\Navigation\Item\ItemLabelInterface
+    {
+        return new \Everlution\Navigation\Item\ItemLabel('products');
+    }
+
+    public function getRegisteredContainerNames(): array
+    {
+        return [
+            \DefaultNavigation::class,
+            'non-existent-alias-which-will-be-ignored',
+        ];
+    }
+}
+```
+
+The registration process then is as simple as defining the item as service and tagging it with `everlution.navigation_item`.
+The bundle then registers the item via dependency injection while the service container is being build.
+
+```yaml
+services:
+    EshopBundle\Navigation\ProductsItem:
+        tags:
+            - { name: 'everlution.navigation_item', alias: 'products_item' }
+```
+
 ### Rendering the navigation
 
 Once you have the navigation registered within navigation registry you can call `render_navigation()` function in Twig
@@ -173,12 +214,12 @@ Example:
 class ItemWithRoute implements Everlution\Navigation\Item\ItemInterface, Everlution\NavigationBundle\Bridge\Item\RoutableInterface
 {
     use Everlution\Navigation\Item\ShownItemTrait;
-    
+
     public function getLabel(): \Everlution\Navigation\Item\ItemLabelInterface
     {
         return new \Everlution\Navigation\Item\ItemLabel('navigation.item_with_route.label');
     }
-    
+
     public function getRoute(): string
     {
         return 'sample_route';
@@ -218,12 +259,12 @@ class EditUserItem implements Everlution\Navigation\Item\ItemInterface, Everluti
     {
         $this->idProvider = $idProvider;
     }
-    
+
     public function getLabel(): \Everlution\Navigation\Item\ItemLabelInterface
     {
         return new \Everlution\Navigation\Item\ItemLabel('navigation.edit_user.label');
     }
-    
+
     public function getRoute(): string
     {
         return 'edit_user_route';
@@ -271,12 +312,12 @@ Example:
 class ItemUsingRequestAttributes implements Everlution\Navigation\Item\ItemInterface, Everlution\NavigationBundle\Bridge\Item\RoutableInterface
 {
     use Everlution\Navigation\Item\ShownItemTrait, Everlution\NavigationBundle\Bridge\Item\RequestAttributesTrait;
-    
+
     public function getLabel(): \Everlution\Navigation\Item\ItemLabelInterface
     {
         return new \Everlution\Navigation\Item\ItemLabel('navigation.request_attributes.label');
     }
-    
+
     public function getRoute(): string
     {
         return 'request_attributes';
@@ -302,12 +343,12 @@ Example:
 class CopyRequestAttributes implements Everlution\Navigation\Item\ItemInterface, Everlution\NavigationBundle\Bridge\Item\RoutableInterface
 {
     use Everlution\Navigation\Item\ShownItemTrait, Everlution\NavigationBundle\Bridge\Item\RequestAttributesTrait;
-    
+
     public function getLabel(): \Everlution\Navigation\Item\ItemLabelInterface
     {
         return new \Everlution\Navigation\Item\ItemLabel('navigation.copy_request_attributes.label');
     }
-    
+
     public function getRoute(): string
     {
         return 'copy_request_attributes';
@@ -344,12 +385,12 @@ Example:
 class MatchedItem implements Everlution\Navigation\Item\ItemInterface, Everlution\NavigationBundle\Bridge\Item\RoutableInterface, Everlution\Navigation\Item\MatchableInterface
 {
     use Everlution\Navigation\Item\ShownItemTrait;
-    
+
     public function getLabel(): \Everlution\Navigation\Item\ItemLabelInterface
     {
         return new \Everlution\Navigation\Item\ItemLabel('navigation.matched.label');
     }
-    
+
     public function getRoute(): string
     {
         return 'edit_matched_route';
@@ -359,7 +400,7 @@ class MatchedItem implements Everlution\Navigation\Item\ItemInterface, Everlutio
     {
         return [];
     }
-    
+
     /**
      * @return \Everlution\Navigation\Match\MatchInterface[]
      */
@@ -386,9 +427,9 @@ is logged in. We have provided functionality for adding filters to the navigatio
 By implementing `getFilters(): Everlution\Navigation\Filter\NavigationFilterInterface[]` you can provide array of any 
 filters you wish.
 
-We provide the `Everlution\Filter\RoleFilter` which will filter out the items which supports the roles provided by
-role provider. You can use `Everlution\Navigation\Filter\RoleProvider` or you can create custom provider by implementing
-`Everlution\Navigation\Filter\RoleProviderInterface`. In order to filter items by role you need to implement 
+We provide the `Everlution\Navigation\Filter\FilterByRole` which will filter out the items which supports the roles 
+provided by role provider. You can use `Everlution\Navigation\Filter\RoleProvider` or you can create custom provider by 
+implementing `Everlution\Navigation\Filter\RolesProviderInterface`. In order to filter items by role you need to implement 
 `Everlution\Navigation\Item\HasSupportedRolesInterface` in each of the navigation items within the navigation.
 
 Example:
@@ -399,12 +440,12 @@ Example:
 class ItemFilteredByRole implements Everlution\Navigation\Item\ItemInterface, Everlution\NavigationBundle\Bridge\Item\RoutableInterface, Everlution\Navigation\Item\HasSupportedRolesInterface
 {
     use Everlution\Navigation\Item\ShownItemTrait;
-    
+
     public function getLabel(): \Everlution\Navigation\Item\ItemLabelInterface
     {
         return new \Everlution\Navigation\Item\ItemLabel('navigation.item_filtered_by_role.label');
     }
-    
+
     public function getRoute(): string
     {
         return 'edit_filtered_by_role_route';
@@ -414,7 +455,7 @@ class ItemFilteredByRole implements Everlution\Navigation\Item\ItemInterface, Ev
     {
         return [];
     }
-    
+
     public function getSupportedRoles(): array
     {
         return [
@@ -434,7 +475,7 @@ class FilteredNavigation extends \Everlution\Navigation\MutableContainer impleme
 {
     /** @var \Everlution\Navigation\Filter\RolesProviderInterface */
     private $roleProvider;
-    
+
     public function __construct(\Everlution\Navigation\Filter\RolesProviderInterface $rolesProvider)
     {
         $this->roleProvider = $rolesProvider;
@@ -447,12 +488,100 @@ class FilteredNavigation extends \Everlution\Navigation\MutableContainer impleme
             ]
         );
     }
-    
+
     public function getFilters(): array
     {
         return [
-            new \Everlution\Navigation\Filter\RoleFilter($this->roleProvider),
+            new \Everlution\Navigation\Filter\FilterByRole($this->roleProvider),
         ];
+    }
+}
+```
+
+In this scenario eg. when your `FilteredNavigation` returns `FilterByRole` within array of filters all of navigation items
+added to the navigation must implement `Everlution\Navigation\Item\HasSupportedRolesInterface`. To avoid an exception
+you can chain your filters by preceding the filters by `Everlution\Navigation\Filter\RemoveNotSupportedRoleFilter` which
+will remove all items which don't implement the `Everlution\Navigation\Item\HasSupportedRolesInterface` interface before
+running `FilterByRole` filter. No exception will be thrown because the filters are executed sequentially so at the time
+the `FilterByRole` filter is running which expect all items to implement `Everlution\Navigation\Item\HasSupportedRolesInterface`
+all other items has been already filtered out.
+
+```php
+<?php
+
+    // ...
+    public function getFilters(): array
+    {
+        return [
+            new Everlution\Navigation\Filter\RemoveNotSupportedRoleFilter(),
+            new \Everlution\Navigation\Filter\FilterByRole($this->roleProvider),
+        ];
+    }
+    // ...
+
+```
+
+We have also provided non strict filter `Everlution\Navigation\Filter\FilterByRoleNonStrictly` which will ignore items
+non implementing `Everlution\Navigation\Item\HasSupportedRolesInterface` causing showing these items within the final
+navigation no matter what role is provided.
+
+### Sorting the navigation items
+
+At the time of rendering the navigation the navigation container has being to transformed 
+to `Everlution\Navigation\OrderedContainer`. In this container all items which implements 
+`Everlution\Navigation\Item\SortableInterface` are being sorted by simple comparison function in ascending order and all
+other items are appended to the end of the sorted items in its original order. Generally the items are ordered by the
+order in which they were added to the container.
+
+By implementing the `Everlution\Navigation\OrderedContainer` you are defining the number (negative or positive) which 
+specifies the place within the ordered container - order is specified by ordering these numbers from the smallest 
+to the largest.
+
+```php
+<?php
+
+class FirstItem implements Everlution\Navigation\Item\ItemInterface, Everlution\Navigation\Item\SortableInterface
+{
+    use Everlution\Navigation\Item\ShownItemTrait;
+
+    public function getLabel(): \Everlution\Navigation\Item\ItemLabelInterface
+    {
+        return new \Everlution\Navigation\Item\ItemLabel('first');
+    }
+
+    public function getOrder(): int
+    {
+        return -100;
+    }
+}
+
+class LastItem implements Everlution\Navigation\Item\ItemInterface, Everlution\Navigation\Item\SortableInterface
+{
+    use Everlution\Navigation\Item\ShownItemTrait;
+
+    public function getLabel(): \Everlution\Navigation\Item\ItemLabelInterface
+    {
+        return new \Everlution\Navigation\Item\ItemLabel('last');
+    }
+
+    public function getOrder(): int
+    {
+        return 100;
+    }
+}
+
+class MiddleItem implements Everlution\Navigation\Item\ItemInterface, Everlution\Navigation\Item\SortableInterface
+{
+    use Everlution\Navigation\Item\ShownItemTrait;
+
+    public function getLabel(): \Everlution\Navigation\Item\ItemLabelInterface
+    {
+        return new \Everlution\Navigation\Item\ItemLabel('middle');
+    }
+
+    public function getOrder(): int
+    {
+        return 0;
     }
 }
 ```
@@ -474,12 +603,12 @@ Example:
 class ItemWithParent implements Everlution\Navigation\Item\ItemInterface, Everlution\NavigationBundle\Bridge\Item\RoutableInterface, Everlution\Navigation\Item\NestableInterface
 {
     use Everlution\Navigation\Item\ShownItemTrait;
-    
+
     public function getLabel(): \Everlution\Navigation\Item\ItemLabelInterface
     {
         return new \Everlution\Navigation\Item\ItemLabel('navigation.item_with_parent.label');
     }
-    
+
     public function getRoute(): string
     {
         return 'edit_item_with_parent_route';
@@ -489,7 +618,7 @@ class ItemWithParent implements Everlution\Navigation\Item\ItemInterface, Everlu
     {
         return [];
     }
-    
+
     public function getParent(): string
     {
         return \SampleItem::class;
@@ -532,15 +661,15 @@ Example:
 class TranslatableLabelItem implements Everlution\Navigation\Item\ItemInterface
 {
     use Everlution\Navigation\Item\ShownItemTrait;
-    
+
     /** @var \ParameterProvider */
     private $parameterProvider;
-    
+
     public function __construct(\ParameterProvider $provider)
     {
         $this->parameterProvider = $provider;
     }
-    
+
     public function getLabel(): \Everlution\Navigation\Item\ItemLabelInterface
     {
         return new \Everlution\NavigationBundle\Bridge\Item\TranslatableItemLabel(
@@ -582,12 +711,12 @@ define Twig template which is provided for you by default.
 
 ### Alias is not registered when you registered it
 
-![Image of Yaktocat](doc/autowire-problem.png)
+![Alias is not registered exception](doc/autowire-problem.png)
 
-Sometimes when you use Symfony's autowire functionality for easier registering of services exception depicted above may
+Sometimes when you use Symfony's auto-wire functionality for easier registering of services exception depicted above may
 occur. In this case we have registered the `main_navigation` in external file `navigaiton.yml` which is being imported
-to main `services.yml`. Navigation items and navigations are implemented within `AppBundle\Navigation` namespace as you
-can see in following snippets.
+to main `services.yml`. Navigation items and navigation instances are implemented within `AppBundle\Navigation` namespace
+as you can see in following snippets.
 
 ```yaml
 # app/config/services/navigation.yml
@@ -643,5 +772,4 @@ services:
 
 ## To Do's
 
-- test ordering the items within navigation and add documentation
-- test registering item to multiple navigation instances dynamically via Registry and add documentation
+- dynamic generation of navigation (eg. implement items provider)

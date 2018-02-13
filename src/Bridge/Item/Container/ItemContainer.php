@@ -8,6 +8,7 @@ use Everlution\Navigation\Item\ItemInterface;
 
 /**
  * Class ItemContainer.
+ *
  * @author Ivan Barlog <ivan.barlog@everlution.sk>
  */
 class ItemContainer implements ItemContainerInterface

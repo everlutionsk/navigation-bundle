@@ -8,6 +8,7 @@ use Everlution\Navigation\Item\ItemInterface;
 
 /**
  * Interface ItemContainerInterface.
+ *
  * @author Ivan Barlog <ivan.barlog@everlution.sk>
  */
 interface ItemContainerInterface
@@ -16,7 +17,9 @@ interface ItemContainerInterface
 
     /**
      * @param string $name
+     *
      * @return ItemInterface
+     *
      * @throws ItemNotRegisteredException
      */
     public function get(string $name): ItemInterface;

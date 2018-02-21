@@ -7,9 +7,11 @@ services:
     Everlution\NavigationBundle\Bridge\Item\RequestAttributesContainer: ~
 
     Everlution\Navigation\Registry: ~
+    Everlution\Navigation\ContainerRegistry: ~
     Everlution\Navigation\Url\UrlProviderContainer: ~
     Everlution\NavigationBundle\Bridge\NavigationAliasContainer: ~
     Everlution\NavigationBundle\Bridge\Matcher: ~
+    Everlution\NavigationBundle\Bridge\NavigationContainerMatcher: ~
     Everlution\NavigationBundle\Bridge\Item\Container\ItemContainer: ~
 
     Everlution\NavigationBundle\Bridge\Url\UrlProvider:
@@ -19,6 +21,7 @@ services:
 
     # twig extension
     Everlution\NavigationBundle\Twig\NavigationHelper: ~
+    Everlution\NavigationBundle\Twig\NavigationContainerHelper: ~
     Everlution\NavigationBundle\Twig\NavigationExtension:
         tags: ['twig.extension']
     Everlution\NavigationBundle\Twig\ItemExtension:

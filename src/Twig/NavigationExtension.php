@@ -15,11 +15,14 @@ use Twig\Environment;
 class NavigationExtension extends \Twig_Extension
 {
     /** @var NavigationHelper */
-    private $helper;
+    private $navigationHelper;
+    /** @var NavigationContainerHelper */
+    private $containerHelper;
 
-    public function __construct(NavigationHelper $helper)
+    public function __construct(NavigationHelper $navigationHelper, NavigationContainerHelper $containerHelper)
     {
-        $this->helper = $helper;
+        $this->navigationHelper = $navigationHelper;
+        $this->containerHelper = $containerHelper;
     }
 
     /**
@@ -33,9 +36,9 @@ class NavigationExtension extends \Twig_Extension
         return $environment->render(
             $template,
             [
-                'root' => $this->helper->getNavigation($identifier)->getRoot(),
+                'root' => $this->containerHelper->getNavigation($identifier)->getCurrent(),
                 'identifier' => $identifier,
-                'helper' => $this->helper,
+                'helper' => $this->containerHelper,
             ]
         );
     }
@@ -49,7 +52,7 @@ class NavigationExtension extends \Twig_Extension
         string $template = '@EverlutionNavigation/bootstrap_breadcrumbs.html.twig'
     ): string {
         try {
-            $items = $this->helper->getNavigation($identifier)->getBreadcrumbs();
+            $items = $this->navigationHelper->getNavigation($identifier)->getBreadcrumbs();
         } catch (NoCurrentItemFoundException $exception) {
             return 'missing breadcrumbs';
         }
@@ -59,7 +62,7 @@ class NavigationExtension extends \Twig_Extension
             [
                 'items' => $items,
                 'identifier' => $identifier,
-                'helper' => $this->helper,
+                'helper' => $this->navigationHelper,
             ]
         );
     }
@@ -83,7 +86,7 @@ class NavigationExtension extends \Twig_Extension
     public function getFilters()
     {
         return [
-            new \Twig_SimpleFilter('url', [$this->helper, 'getUrl']),
+            new \Twig_SimpleFilter('url', [$this->navigationHelper, 'getUrl']),
         ];
     }
 }

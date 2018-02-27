@@ -6,9 +6,9 @@ namespace Everlution\NavigationBundle\Twig;
 
 use Everlution\Navigation\Builder\MatcherInterface;
 use Everlution\Navigation\ContainerRegistry;
-use Everlution\Navigation\NavBuilder\ContainerMatcherInterface;
-use Everlution\Navigation\NavBuilder\NavigationBuilder;
-use Everlution\Navigation\NavBuilder\NavigationContainerInterface;
+use Everlution\Navigation\ContainerBuilder\ContainerMatcherInterface;
+use Everlution\Navigation\ContainerBuilder\NavigationBuilder;
+use Everlution\Navigation\ContainerBuilder\NavigationContainerInterface;
 use Everlution\Navigation\Item\ItemInterface;
 use Everlution\Navigation\Url\CannotProvideUrlForItemException;
 use Everlution\Navigation\Url\UrlProviderContainer;

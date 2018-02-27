@@ -7,7 +7,7 @@ namespace Everlution\NavigationBundle\Bridge;
 use Everlution\Navigation\ContainerInterface;
 use Everlution\Navigation\Item\MatchableInterface;
 use Everlution\Navigation\Match\UrlMatchVoterInterface;
-use Everlution\Navigation\NavBuilder\ContainerMatcherInterface;
+use Everlution\Navigation\ContainerBuilder\ContainerMatcherInterface;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\RequestStack;
 

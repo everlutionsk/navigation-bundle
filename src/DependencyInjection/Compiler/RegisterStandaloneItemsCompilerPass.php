@@ -26,9 +26,15 @@ class RegisterStandaloneItemsCompilerPass implements CompilerPassInterface
         $services = $container->findTaggedServiceIds('everlution.navigation_item');
 
         foreach ($services as $id => $tags) {
+            $alias = $tags[0]['alias'] ?? null;
+
+            if (null === $alias) {
+                continue;
+            }
+
             $itemsContainer->addMethodCall(
                 'addItem',
-                [$tags[0]['alias'], new Reference($id)]
+                [$alias, new Reference($id)]
             );
 
             $this->registerItem($id, $container, $registry);

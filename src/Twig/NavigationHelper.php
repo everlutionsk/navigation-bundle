@@ -33,31 +33,15 @@ class NavigationHelper
     private $matcher;
     /** @var NavigationBuilder[] */
     private $container = [];
-    /** @var UrlProviderContainer */
-    private $urlProviders;
-    /** @var TranslatorInterface */
-    private $translator;
 
     public function __construct(
         Registry $registry,
         NavigationAliasContainer $aliasContainer,
-        MatcherInterface $matcher,
-        UrlProviderContainer $container,
-        TranslatorInterface $translator
+        MatcherInterface $matcher
     ) {
         $this->registry = $registry;
         $this->aliasContainer = $aliasContainer;
         $this->matcher = $matcher;
-        $this->urlProviders = $container;
-        $this->translator = $translator;
-    }
-
-    public function getLabel(ItemInterface $item, string $domain = null, string $locale = null): string
-    {
-        $label = $item->getLabel();
-        $parameters = $label instanceof TranslatableItemLabelInterface ? $label->getParameters() : [];
-
-        return $this->translator->trans($label->getValue(), $parameters, $domain, $locale);
     }
 
     public function isCurrent(string $identifier, ItemInterface $item): bool
@@ -72,15 +56,6 @@ class NavigationHelper
     public function isAncestor(string $identifier, ItemInterface $item): bool
     {
         return $this->getNavigation($identifier)->isAncestor($item);
-    }
-
-    public function getUrl(ItemInterface $item): string
-    {
-        try {
-            return $this->urlProviders->getUrl($item);
-        } catch (CannotProvideUrlForItemException $exception) {
-            return '#';
-        }
     }
 
     public function getNavigation(string $navigation): NavigationBuilder

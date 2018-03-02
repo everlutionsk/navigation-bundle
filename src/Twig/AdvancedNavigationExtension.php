@@ -8,21 +8,21 @@ use Everlution\Navigation\Builder\NoCurrentItemFoundException;
 use Twig\Environment;
 
 /**
- * Class NavigationExtension.
+ * Class AdvancedNavigationExtension
  *
- * @author Ivan Barlog <ivan.barlog@everlution.sk>
+ * @author Martin Lutter <martin.lutter@everlution.sk>
  */
-class NavigationExtension extends \Twig_Extension
+class AdvancedNavigationExtension extends \Twig_Extension
 {
-    /** @var Helper */
-    private $helper;
     /** @var NavigationHelper */
     private $navigationHelper;
+    /** @var AdvancedNavigationHelper */
+    private $containerHelper;
 
-    public function __construct(Helper $helper, NavigationHelper $navigationHelper)
+    public function __construct(NavigationHelper $navigationHelper, AdvancedNavigationHelper $containerHelper)
     {
-        $this->helper = $helper;
         $this->navigationHelper = $navigationHelper;
+        $this->containerHelper = $containerHelper;
     }
 
     /**
@@ -36,10 +36,9 @@ class NavigationExtension extends \Twig_Extension
         return $environment->render(
             $template,
             [
-                'root' => $this->navigationHelper->getNavigation($identifier)->getRoot(),
+                'root' => $this->containerHelper->getNavigation($identifier)->getCurrent(),
                 'identifier' => $identifier,
-                'helper' => $this->helper,
-                'navHelper' => $this->navigationHelper,
+                'helper' => $this->containerHelper,
             ]
         );
     }
@@ -63,8 +62,7 @@ class NavigationExtension extends \Twig_Extension
             [
                 'items' => $items,
                 'identifier' => $identifier,
-                'helper' => $this->helper,
-                'navHelper' => $this->navigationHelper,
+                'helper' => $this->navigationHelper,
             ]
         );
     }

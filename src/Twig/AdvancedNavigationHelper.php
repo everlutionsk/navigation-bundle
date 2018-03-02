@@ -8,7 +8,7 @@ use Everlution\Navigation\Builder\MatcherInterface;
 use Everlution\Navigation\ContainerRegistry;
 use Everlution\Navigation\ContainerBuilder\ContainerMatcherInterface;
 use Everlution\Navigation\ContainerBuilder\NavigationBuilder;
-use Everlution\Navigation\ContainerBuilder\NavigationContainerInterface;
+use Everlution\Navigation\ContainerBuilder\AdvancedNavigationInterface;
 use Everlution\Navigation\Item\ItemInterface;
 use Everlution\Navigation\Url\CannotProvideUrlForItemException;
 use Everlution\Navigation\Url\UrlProviderContainer;
@@ -17,11 +17,11 @@ use Everlution\NavigationBundle\Bridge\NavigationAliasContainer;
 use Symfony\Component\Translation\TranslatorInterface;
 
 /**
- * Class NavigationHelper.
+ * Class AdvancedNavigationHelper
  *
- * @author Ivan Barlog <ivan.barlog@everlution.sk>
+ * @author Martin Lutter <martin.lutter@everlution.sk>
  */
-class NavigationContainerHelper
+class AdvancedNavigationHelper
 {
     /** @var ContainerRegistry */
     private $registry;
@@ -29,37 +29,17 @@ class NavigationContainerHelper
     private $aliasContainer;
     /** @var MatcherInterface */
     private $matcher;
-    /** @var ContainerMatcherInterface */
-    private $containerMatcher;
     /** @var NavigationBuilder[] */
     private $container = [];
-    /** @var UrlProviderContainer */
-    private $urlProviders;
-    /** @var TranslatorInterface */
-    private $translator;
 
     public function __construct(
         ContainerRegistry $registry,
         NavigationAliasContainer $aliasContainer,
-        MatcherInterface $matcher,
-        ContainerMatcherInterface $containerMatcher,
-        UrlProviderContainer $container,
-        TranslatorInterface $translator
+        MatcherInterface $matcher
     ) {
         $this->registry = $registry;
         $this->aliasContainer = $aliasContainer;
         $this->matcher = $matcher;
-        $this->containerMatcher = $containerMatcher;
-        $this->urlProviders = $container;
-        $this->translator = $translator;
-    }
-
-    public function getLabel(ItemInterface $item, string $domain = null, string $locale = null): string
-    {
-        $label = $item->getLabel();
-        $parameters = $label instanceof TranslatableItemLabelInterface ? $label->getParameters() : [];
-
-        return $this->translator->trans($label->getValue(), $parameters, $domain, $locale);
     }
 
     public function isCurrent(ItemInterface $item): bool
@@ -67,26 +47,17 @@ class NavigationContainerHelper
         return $this->matcher->isCurrent($item);
     }
 
-    public function getUrl(ItemInterface $item): string
-    {
-        try {
-            return $this->urlProviders->getUrl($item);
-        } catch (CannotProvideUrlForItemException $exception) {
-            return '#';
-        }
-    }
-
     public function getNavigation(string $navigation): NavigationBuilder
     {
         if (false === array_key_exists($navigation, $this->container)) {
             $container = $this->getContainer($navigation);
-            $this->container[$navigation] = new NavigationBuilder($container, $this->containerMatcher);
+            $this->container[$navigation] = new NavigationBuilder($container, $this->matcher);
         }
 
         return $this->container[$navigation];
     }
 
-    private function getContainer(string $navigation): NavigationContainerInterface
+    private function getContainer(string $navigation): AdvancedNavigationInterface
     {
         return $this->registry->getContainer($this->aliasContainer->get($navigation));
     }

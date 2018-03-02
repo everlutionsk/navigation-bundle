@@ -16,13 +16,13 @@ use Symfony\Component\DependencyInjection\Reference;
  *
  * @author Ivan Barlog <ivan.barlog@everlution.sk>
  */
-class ContainerRegistryCompilerPass implements CompilerPassInterface
+class AdvancedRegistryCompilerPass implements CompilerPassInterface
 {
     public function process(ContainerBuilder $container)
     {
         $registry = $container->findDefinition(ContainerRegistry::class);
         $aliasContainer = $container->findDefinition(NavigationAliasContainer::class);
-        $services = $container->findTaggedServiceIds('everlution.navigation_container');
+        $services = $container->findTaggedServiceIds('everlution.advanced_navigation');
 
         foreach ($services as $id => $tags) {
             $registry->addMethodCall('addContainer', [new Reference($id)]);

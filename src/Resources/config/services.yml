@@ -20,8 +20,9 @@ services:
         tags: ['everlution.url_provider']
 
     # twig extension
+    Everlution\NavigationBundle\Twig\Helper: ~
     Everlution\NavigationBundle\Twig\NavigationHelper: ~
-    Everlution\NavigationBundle\Twig\NavigationContainerHelper: ~
+    Everlution\NavigationBundle\Twig\AdvancedNavigationHelper: ~
     Everlution\NavigationBundle\Twig\NavigationExtension:
         tags: ['twig.extension']
     Everlution\NavigationBundle\Twig\ItemExtension:

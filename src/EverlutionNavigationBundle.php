@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace Everlution\NavigationBundle;
 
-use Everlution\NavigationBundle\DependencyInjection\Compiler\ContainerRegistryCompilerPass;
+use Everlution\NavigationBundle\DependencyInjection\Compiler\AdvancedRegistryCompilerPass;
 use Everlution\NavigationBundle\DependencyInjection\Compiler\RegisterStandaloneItemsCompilerPass;
 use Everlution\NavigationBundle\DependencyInjection\Compiler\RegistryCompilerPass;
 use Everlution\NavigationBundle\DependencyInjection\Compiler\UrlProviderCompilerPass;
@@ -22,7 +22,7 @@ class EverlutionNavigationBundle extends Bundle
     public function build(ContainerBuilder $container)
     {
         $container->addCompilerPass(new RegistryCompilerPass());
-        $container->addCompilerPass(new ContainerRegistryCompilerPass());
+        $container->addCompilerPass(new AdvancedRegistryCompilerPass());
         $container->addCompilerPass(new UrlProviderCompilerPass());
         $container->addCompilerPass(new VoterCompilerPass());
         $container->addCompilerPass(new RegisterStandaloneItemsCompilerPass());

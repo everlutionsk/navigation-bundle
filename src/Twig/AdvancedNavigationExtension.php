@@ -14,55 +14,32 @@ use Twig\Environment;
  */
 class AdvancedNavigationExtension extends \Twig_Extension
 {
-    /** @var NavigationHelper */
-    private $navigationHelper;
+    /** @var Helper */
+    private $helper;
     /** @var AdvancedNavigationHelper */
-    private $containerHelper;
+    private $navigationHelper;
 
-    public function __construct(NavigationHelper $navigationHelper, AdvancedNavigationHelper $containerHelper)
+    public function __construct(Helper $helper, AdvancedNavigationHelper $navigationHelper)
     {
+        $this->helper = $helper;
         $this->navigationHelper = $navigationHelper;
-        $this->containerHelper = $containerHelper;
     }
 
     /**
      * {@inheritdoc}
      */
-    public function renderNavigation(
+    public function renderAdvancedNavigation(
         Environment $environment,
         string $identifier,
-        string $template = '@EverlutionNavigation/bootstrap_navigation.html.twig'
+        string $template
     ): string {
         return $environment->render(
             $template,
             [
-                'root' => $this->containerHelper->getNavigation($identifier)->getCurrent(),
+                'root' => $this->navigationHelper->getNavigation($identifier)->getCurrent(),
                 'identifier' => $identifier,
-                'helper' => $this->containerHelper,
-            ]
-        );
-    }
-
-    /**
-     * {@inheritdoc}
-     */
-    public function renderBreadcrumbs(
-        Environment $environment,
-        string $identifier,
-        string $template = '@EverlutionNavigation/bootstrap_breadcrumbs.html.twig'
-    ): string {
-        try {
-            $items = $this->navigationHelper->getNavigation($identifier)->getBreadcrumbs();
-        } catch (NoCurrentItemFoundException $exception) {
-            return 'missing breadcrumbs';
-        }
-
-        return $environment->render(
-            $template,
-            [
-                'items' => $items,
-                'identifier' => $identifier,
-                'helper' => $this->navigationHelper,
+                'helper' => $this->helper,
+                'navHelper' => $this->navigationHelper,
             ]
         );
     }
@@ -71,22 +48,10 @@ class AdvancedNavigationExtension extends \Twig_Extension
     {
         return [
             new \Twig_SimpleFunction(
-                'render_navigation',
-                [$this, 'renderNavigation'],
+                'render_advanced_navigation',
+                [$this, 'renderAdvancedNavigation'],
                 ['needs_environment' => true, 'is_safe' => ['html']]
             ),
-            new \Twig_SimpleFunction(
-                'render_breadcrumbs',
-                [$this, 'renderBreadcrumbs'],
-                ['needs_environment' => true, 'is_safe' => ['html']]
-            ),
-        ];
-    }
-
-    public function getFilters()
-    {
-        return [
-            new \Twig_SimpleFilter('url', [$this->navigationHelper, 'getUrl']),
         ];
     }
 }

@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace Everlution\NavigationBundle\DependencyInjection\Compiler;
 
-use Everlution\Navigation\ContainerRegistry;
+use Everlution\Navigation\Advanced\ContainerRegistry;
 use Everlution\NavigationBundle\Bridge\NavigationAliasContainer;
 use Symfony\Component\DependencyInjection\Compiler\CompilerPassInterface;
 use Symfony\Component\DependencyInjection\ContainerBuilder;

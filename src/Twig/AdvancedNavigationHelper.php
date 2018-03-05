@@ -5,16 +5,11 @@ declare(strict_types=1);
 namespace Everlution\NavigationBundle\Twig;
 
 use Everlution\Navigation\Builder\MatcherInterface;
-use Everlution\Navigation\ContainerRegistry;
-use Everlution\Navigation\ContainerBuilder\ContainerMatcherInterface;
-use Everlution\Navigation\ContainerBuilder\NavigationBuilder;
-use Everlution\Navigation\ContainerBuilder\AdvancedNavigationInterface;
+use Everlution\Navigation\Advanced\ContainerRegistry;
+use Everlution\Navigation\Advanced\Builder\NavigationBuilder;
+use Everlution\Navigation\Advanced\Item\AdvancedNavigationInterface;
 use Everlution\Navigation\Item\ItemInterface;
-use Everlution\Navigation\Url\CannotProvideUrlForItemException;
-use Everlution\Navigation\Url\UrlProviderContainer;
-use Everlution\NavigationBundle\Bridge\Item\TranslatableItemLabelInterface;
 use Everlution\NavigationBundle\Bridge\NavigationAliasContainer;
-use Symfony\Component\Translation\TranslatorInterface;
 
 /**
  * Class AdvancedNavigationHelper

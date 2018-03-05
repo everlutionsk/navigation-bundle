@@ -88,7 +88,7 @@ class NavigationExtension extends \Twig_Extension
     public function getFilters()
     {
         return [
-            new \Twig_SimpleFilter('url', [$this->navigationHelper, 'getUrl']),
+            new \Twig_SimpleFilter('url', [$this->helper, 'getUrl']),
         ];
     }
 }

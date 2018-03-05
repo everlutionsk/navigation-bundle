@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace Everlution\NavigationBundle\DependencyInjection\Compiler;
 
-use Everlution\Navigation\Advanced\ContainerRegistry;
+use Everlution\Navigation\Advanced\AdvancedRegistry;
 use Everlution\NavigationBundle\Bridge\NavigationAliasContainer;
 use Symfony\Component\DependencyInjection\Compiler\CompilerPassInterface;
 use Symfony\Component\DependencyInjection\ContainerBuilder;
@@ -20,7 +20,7 @@ class AdvancedRegistryCompilerPass implements CompilerPassInterface
 {
     public function process(ContainerBuilder $container)
     {
-        $registry = $container->findDefinition(ContainerRegistry::class);
+        $registry = $container->findDefinition(AdvancedRegistry::class);
         $aliasContainer = $container->findDefinition(NavigationAliasContainer::class);
         $services = $container->findTaggedServiceIds('everlution.advanced_navigation');
 

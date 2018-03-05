@@ -7,7 +7,7 @@ services:
     Everlution\NavigationBundle\Bridge\Item\RequestAttributesContainer: ~
 
     Everlution\Navigation\Container\Registry: ~
-    Everlution\Navigation\Advanced\AdvancedRegistry: ~
+    Everlution\Navigation\Advanced\Container\AdvancedRegistry: ~
     Everlution\Navigation\Url\UrlProviderContainer: ~
     Everlution\NavigationBundle\Bridge\NavigationAliasContainer: ~
     Everlution\NavigationBundle\Bridge\Matcher: ~

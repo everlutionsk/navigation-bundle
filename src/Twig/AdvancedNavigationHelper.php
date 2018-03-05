@@ -5,7 +5,7 @@ declare(strict_types=1);
 namespace Everlution\NavigationBundle\Twig;
 
 use Everlution\Navigation\Builder\MatcherInterface;
-use Everlution\Navigation\Advanced\AdvancedRegistry;
+use Everlution\Navigation\Advanced\Container\AdvancedRegistry;
 use Everlution\Navigation\Advanced\Builder\NavigationBuilder;
 use Everlution\Navigation\Advanced\Item\AdvancedNavigationInterface;
 use Everlution\Navigation\Item\ItemInterface;
@@ -18,7 +18,7 @@ use Everlution\NavigationBundle\Bridge\NavigationAliasContainer;
  */
 class AdvancedNavigationHelper
 {
-    /** @var AdvancedRegistry */
+    /** @var \Everlution\Navigation\Advanced\Container\AdvancedRegistry */
     private $registry;
     /** @var NavigationAliasContainer */
     private $aliasContainer;

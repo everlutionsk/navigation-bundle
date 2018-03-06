@@ -5,7 +5,6 @@ declare(strict_types=1);
 namespace Everlution\NavigationBundle\Bridge;
 
 use Everlution\Navigation\Builder\MatcherInterface;
-use Everlution\Navigation\Item\ItemInterface;
 use Everlution\Navigation\Item\MatchableInterface;
 use Everlution\Navigation\Match\UrlMatchVoterInterface;
 use Symfony\Component\HttpFoundation\Request;

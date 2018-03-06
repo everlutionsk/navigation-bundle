@@ -12,7 +12,7 @@ use Everlution\Navigation\Item\ItemInterface;
 use Everlution\NavigationBundle\Bridge\NavigationAliasContainer;
 
 /**
- * Class NestedNavigationHelper
+ * Class NestedNavigationHelper.
  *
  * @author Martin Lutter <martin.lutter@everlution.sk>
  */

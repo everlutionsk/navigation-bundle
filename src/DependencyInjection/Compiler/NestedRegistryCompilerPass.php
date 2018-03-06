@@ -12,7 +12,7 @@ use Symfony\Component\DependencyInjection\Definition;
 use Symfony\Component\DependencyInjection\Reference;
 
 /**
- * Class NestedRegistryCompilerPass
+ * Class NestedRegistryCompilerPass.
  *
  * @author Martin Lutter <martin.lutter@everlution.sk>
  */

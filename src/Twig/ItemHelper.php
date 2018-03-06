@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Everlution\NavigationBundle\Twig;
 
 use Everlution\Bridge\Symfony\Translator\TranslatorInterface;
@@ -9,7 +11,8 @@ use Everlution\Navigation\Url\UrlProviderContainer;
 use Everlution\NavigationBundle\Bridge\Item\TranslatableItemLabelInterface;
 
 /**
- * Class Helper
+ * Class Helper.
+ *
  * @author Martin Lutter <martin.lutter@everlution.sk>
  */
 class ItemHelper

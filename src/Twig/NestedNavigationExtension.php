@@ -7,7 +7,7 @@ namespace Everlution\NavigationBundle\Twig;
 use Twig\Environment;
 
 /**
- * Class NestedNavigationExtension
+ * Class NestedNavigationExtension.
  *
  * @author Martin Lutter <martin.lutter@everlution.sk>
  */

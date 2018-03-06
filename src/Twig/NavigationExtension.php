@@ -14,12 +14,15 @@ use Twig\Environment;
  */
 class NavigationExtension extends \Twig_Extension
 {
-    /** @var NavigationHelper */
+    /** @var ItemHelper */
     private $helper;
+    /** @var NavigationHelper */
+    private $navigationHelper;
 
-    public function __construct(NavigationHelper $helper)
+    public function __construct(ItemHelper $helper, NavigationHelper $navigationHelper)
     {
         $this->helper = $helper;
+        $this->navigationHelper = $navigationHelper;
     }
 
     /**
@@ -33,9 +36,10 @@ class NavigationExtension extends \Twig_Extension
         return $environment->render(
             $template,
             [
-                'root' => $this->helper->getNavigation($identifier)->getRoot(),
+                'root' => $this->navigationHelper->getNavigation($identifier)->getRoot(),
                 'identifier' => $identifier,
                 'helper' => $this->helper,
+                'navigation_helper' => $this->navigationHelper,
             ]
         );
     }
@@ -49,7 +53,7 @@ class NavigationExtension extends \Twig_Extension
         string $template = '@EverlutionNavigation/bootstrap_breadcrumbs.html.twig'
     ): string {
         try {
-            $items = $this->helper->getNavigation($identifier)->getBreadcrumbs();
+            $items = $this->navigationHelper->getNavigation($identifier)->getBreadcrumbs();
         } catch (NoCurrentItemFoundException $exception) {
             return 'missing breadcrumbs';
         }
@@ -60,6 +64,7 @@ class NavigationExtension extends \Twig_Extension
                 'items' => $items,
                 'identifier' => $identifier,
                 'helper' => $this->helper,
+                'navigation_helper' => $this->navigationHelper,
             ]
         );
     }

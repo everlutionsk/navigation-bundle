@@ -5,7 +5,7 @@ declare(strict_types=1);
 namespace Everlution\NavigationBundle\Bridge;
 
 /**
- * Class NavigationAliasTranslator.
+ * Class NavigationAliasContainer.
  *
  * @author Ivan Barlog <ivan.barlog@everlution.sk>
  */

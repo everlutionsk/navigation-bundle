@@ -29,7 +29,7 @@ class Matcher implements MatcherInterface
         $this->voter = $voter;
     }
 
-    public function isCurrent(ItemInterface $item): bool
+    public function isCurrent($item): bool
     {
         if (!$item instanceof MatchableInterface) {
             return false;

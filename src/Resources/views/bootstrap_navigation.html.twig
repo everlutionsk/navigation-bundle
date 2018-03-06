@@ -9,7 +9,7 @@
                    aria-expanded="false">{{ helper.getLabel(item) }}</a>
                 <div class="dropdown-menu">
                     {% for child in node.children %}
-                        <a class="dropdown-item{% if helper.isCurrent(identifier, child.item) %} active{% endif %}" href="{{ helper.getUrl(child.item) }}">{{ helper.getLabel(child.item) }}</a>
+                        <a class="dropdown-item{% if navigation_helper.isCurrent(identifier, child.item) %} active{% endif %}" href="{{ helper.getUrl(child.item) }}">{{ helper.getLabel(child.item) }}</a>
                     {% endfor %}
                 </div>
             </li>

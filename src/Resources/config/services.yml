@@ -11,7 +11,6 @@ services:
     Everlution\Navigation\Url\UrlProviderContainer: ~
     Everlution\NavigationBundle\Bridge\NavigationAliasContainer: ~
     Everlution\NavigationBundle\Bridge\Matcher: ~
-    Everlution\NavigationBundle\Bridge\NavigationContainerMatcher: ~
     Everlution\NavigationBundle\Bridge\Item\Container\ItemContainer: ~
 
     Everlution\NavigationBundle\Bridge\Url\UrlProvider:

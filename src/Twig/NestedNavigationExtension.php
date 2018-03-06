@@ -4,7 +4,6 @@ declare(strict_types=1);
 
 namespace Everlution\NavigationBundle\Twig;
 
-use Everlution\Navigation\Builder\NoCurrentItemFoundException;
 use Twig\Environment;
 
 /**

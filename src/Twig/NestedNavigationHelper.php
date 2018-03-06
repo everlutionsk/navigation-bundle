@@ -5,21 +5,18 @@ declare(strict_types=1);
 namespace Everlution\NavigationBundle\Twig;
 
 use Everlution\Navigation\Builder\MatcherInterface;
-use Everlution\Navigation\Builder\NavigationBuilder;
-use Everlution\Navigation\Builder\NoCurrentItemFoundException;
-use Everlution\Navigation\ContainerInterface;
-use Everlution\Navigation\FilteredContainer;
-use Everlution\Navigation\FilteredContainerInterface;
+use Everlution\Navigation\Nested\Registry;
+use Everlution\Navigation\Nested\Builder\NavigationBuilder;
+use Everlution\Navigation\Nested\AdvancedNavigationInterface;
 use Everlution\Navigation\Item\ItemInterface;
-use Everlution\Navigation\Registry;
 use Everlution\NavigationBundle\Bridge\NavigationAliasContainer;
 
 /**
- * Class NavigationHelper.
+ * Class NestedNavigationHelper
  *
- * @author Ivan Barlog <ivan.barlog@everlution.sk>
+ * @author Martin Lutter <martin.lutter@everlution.sk>
  */
-class NavigationHelper
+class NestedNavigationHelper
 {
     /** @var Registry */
     private $registry;
@@ -40,18 +37,9 @@ class NavigationHelper
         $this->matcher = $matcher;
     }
 
-    public function isCurrent(string $identifier, ItemInterface $item): bool
+    public function isCurrent(ItemInterface $item): bool
     {
-        try {
-            return $this->getNavigation($identifier)->getCurrent() === $item;
-        } catch (NoCurrentItemFoundException $exception) {
-            return false;
-        }
-    }
-
-    public function isAncestor(string $identifier, ItemInterface $item): bool
-    {
-        return $this->getNavigation($identifier)->isAncestor($item);
+        return $this->matcher->isCurrent($item);
     }
 
     public function getNavigation(string $navigation): NavigationBuilder
@@ -64,14 +52,8 @@ class NavigationHelper
         return $this->container[$navigation];
     }
 
-    private function getContainer(string $navigation): ContainerInterface
+    private function getContainer(string $navigation): AdvancedNavigationInterface
     {
-        $container = $this->registry->getContainer($this->aliasContainer->get($navigation));
-
-        if ($container instanceof FilteredContainerInterface) {
-            return new FilteredContainer($container);
-        }
-
-        return $container;
+        return $this->registry->getContainer($this->aliasContainer->get($navigation));
     }
 }

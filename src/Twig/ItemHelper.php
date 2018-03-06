@@ -4,11 +4,11 @@ declare(strict_types=1);
 
 namespace Everlution\NavigationBundle\Twig;
 
-use Everlution\Bridge\Symfony\Translator\TranslatorInterface;
 use Everlution\Navigation\Item\ItemInterface;
 use Everlution\Navigation\Url\CannotProvideUrlForItemException;
 use Everlution\Navigation\Url\UrlProviderContainer;
 use Everlution\NavigationBundle\Bridge\Item\TranslatableItemLabelInterface;
+use Symfony\Component\Translation\TranslatorInterface;
 
 /**
  * Class Helper.

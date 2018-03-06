@@ -5,7 +5,6 @@ declare(strict_types=1);
 namespace Everlution\NavigationBundle\Bridge;
 
 use Everlution\Navigation\Builder\MatcherInterface;
-use Everlution\Navigation\Item\ItemInterface;
 use Everlution\Navigation\Item\MatchableInterface;
 use Everlution\Navigation\Match\UrlMatchVoterInterface;
 use Symfony\Component\HttpFoundation\Request;
@@ -29,7 +28,7 @@ class Matcher implements MatcherInterface
         $this->voter = $voter;
     }
 
-    public function isCurrent(ItemInterface $item): bool
+    public function isCurrent($item): bool
     {
         if (!$item instanceof MatchableInterface) {
             return false;

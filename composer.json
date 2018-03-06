@@ -19,7 +19,7 @@
         "symfony/templating": "^3.0|^4.0",
         "symfony/translation": "^3.0|^4.0",
         "symfony/twig-bundle": "^3.0|^4.0",
-        "everlutionsk/navigation": "^2.1"
+        "everlutionsk/navigation": "^2.2"
     },
     "license": "MIT",
     "authors": [

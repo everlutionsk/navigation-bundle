@@ -106,7 +106,7 @@ class SampleItem implements Everlution\Navigation\Item\ItemInterface
 
 ### Create container and register items
 
-The simplest way to implement navigation items container is to extend `Everlution\Navigation\Container\MutableContainer`
+The simplest way to implement navigation items container is to extend `Everlution\Navigation\MutableContainer`
 which provides predefined methods used internally within the bundle you need just to add the navigation items 
 to the container.
 
@@ -115,7 +115,7 @@ Example:
 ```php
 <?php
 
-class SampleNavigation extends Everlution\Navigation\Container\MutableContainer
+class SampleNavigation extends Everlution\Navigation\MutableContainer
 {
     public function __construct()
     {
@@ -423,7 +423,7 @@ eg. it will for instance match also `.PhP`.
 
 There are cases when you want to filter the navigation items by some rules for instance when user with different role
 is logged in. We have provided functionality for adding filters to the navigation. Everything you need to do is implement
-`Everlution\Navigation\Container\FilteredContainerInterface` within your navigation. 
+`Everlution\Navigation\FilteredContainerInterface` within your navigation. 
 By implementing `getFilters(): Everlution\Navigation\Filter\NavigationFilterInterface[]` you can provide array of any 
 filters you wish.
 
@@ -471,7 +471,7 @@ object will look similar to the following one:
 ```php
 <?php
 
-class FilteredNavigation extends \Everlution\Navigation\Container\MutableContainer implements Everlution\Navigation\Container\FilteredContainerInterface
+class FilteredNavigation extends \Everlution\Navigation\MutableContainer implements Everlution\Navigation\FilteredContainerInterface
 {
     /** @var \Everlution\Navigation\Filter\RolesProviderInterface */
     private $roleProvider;
@@ -528,12 +528,12 @@ navigation no matter what role is provided.
 ### Sorting the navigation items
 
 At the time of rendering the navigation the navigation container has being to transformed 
-to `Everlution\Navigation\Container\OrderedContainer`. In this container all items which implements 
+to `Everlution\Navigation\OrderedContainer`. In this container all items which implements 
 `Everlution\Navigation\Item\SortableInterface` are being sorted by simple comparison function in ascending order and all
 other items are appended to the end of the sorted items in its original order. Generally the items are ordered by the
 order in which they were added to the container.
 
-By implementing the `Everlution\Navigation\Container\OrderedContainer` you are defining the number (negative or positive) which 
+By implementing the `Everlution\Navigation\OrderedContainer` you are defining the number (negative or positive) which 
 specifies the place within the ordered container - order is specified by ordering these numbers from the smallest 
 to the largest.
 

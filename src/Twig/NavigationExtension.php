@@ -14,12 +14,12 @@ use Twig\Environment;
  */
 class NavigationExtension extends \Twig_Extension
 {
-    /** @var Helper */
+    /** @var ItemHelper */
     private $helper;
     /** @var NavigationHelper */
     private $navigationHelper;
 
-    public function __construct(Helper $helper, NavigationHelper $navigationHelper)
+    public function __construct(ItemHelper $helper, NavigationHelper $navigationHelper)
     {
         $this->helper = $helper;
         $this->navigationHelper = $navigationHelper;
@@ -39,7 +39,7 @@ class NavigationExtension extends \Twig_Extension
                 'root' => $this->navigationHelper->getNavigation($identifier)->getRoot(),
                 'identifier' => $identifier,
                 'helper' => $this->helper,
-                'navHelper' => $this->navigationHelper,
+                'navigation_helper' => $this->navigationHelper,
             ]
         );
     }
@@ -64,7 +64,7 @@ class NavigationExtension extends \Twig_Extension
                 'items' => $items,
                 'identifier' => $identifier,
                 'helper' => $this->helper,
-                'navHelper' => $this->navigationHelper,
+                'navigation_helper' => $this->navigationHelper,
             ]
         );
     }

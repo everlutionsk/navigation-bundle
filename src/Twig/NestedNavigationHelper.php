@@ -5,20 +5,20 @@ declare(strict_types=1);
 namespace Everlution\NavigationBundle\Twig;
 
 use Everlution\Navigation\Builder\MatcherInterface;
-use Everlution\Navigation\Advanced\Container\AdvancedRegistry;
-use Everlution\Navigation\Advanced\Builder\NavigationBuilder;
-use Everlution\Navigation\Advanced\Item\AdvancedNavigationInterface;
+use Everlution\Navigation\Nested\Registry;
+use Everlution\Navigation\Nested\Builder\NavigationBuilder;
+use Everlution\Navigation\Nested\AdvancedNavigationInterface;
 use Everlution\Navigation\Item\ItemInterface;
 use Everlution\NavigationBundle\Bridge\NavigationAliasContainer;
 
 /**
- * Class AdvancedNavigationHelper
+ * Class NestedNavigationHelper
  *
  * @author Martin Lutter <martin.lutter@everlution.sk>
  */
-class AdvancedNavigationHelper
+class NestedNavigationHelper
 {
-    /** @var \Everlution\Navigation\Advanced\Container\AdvancedRegistry */
+    /** @var Registry */
     private $registry;
     /** @var NavigationAliasContainer */
     private $aliasContainer;
@@ -28,7 +28,7 @@ class AdvancedNavigationHelper
     private $container = [];
 
     public function __construct(
-        AdvancedRegistry $registry,
+        Registry $registry,
         NavigationAliasContainer $aliasContainer,
         MatcherInterface $matcher
     ) {

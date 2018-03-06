@@ -5,7 +5,7 @@ declare(strict_types=1);
 namespace Everlution\NavigationBundle\DependencyInjection\Compiler;
 
 use Everlution\Navigation\Item\RegistrableItemInterface;
-use Everlution\Navigation\Container\Registry;
+use Everlution\Navigation\Registry;
 use Everlution\NavigationBundle\Bridge\Item\Container\ItemContainer;
 use Symfony\Component\DependencyInjection\Compiler\CompilerPassInterface;
 use Symfony\Component\DependencyInjection\ContainerBuilder;

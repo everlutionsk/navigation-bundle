@@ -12,7 +12,7 @@ use Everlution\NavigationBundle\Bridge\Item\TranslatableItemLabelInterface;
  * Class Helper
  * @author Martin Lutter <martin.lutter@everlution.sk>
  */
-class Helper
+class ItemHelper
 {
     /** @var TranslatorInterface */
     private $translator;

@@ -19,8 +19,14 @@
         "symfony/templating": "^3.0|^4.0",
         "symfony/translation": "^3.0|^4.0",
         "symfony/twig-bundle": "^3.0|^4.0",
-        "everlutionsk/navigation": "^2.2"
+        "everlutionsk/navigation": "^2.3"
     },
+    "repositories": [
+        {
+            "type": "vcs",
+            "url": "git@github.com:martinlutter/navigation.git"
+        }
+    ],
     "license": "MIT",
     "authors": [
         {"name": "Ivan Barlog", "email": "ivan.barlog@everlution.sk"}

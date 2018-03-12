@@ -36,7 +36,7 @@ class NavigationExtension extends \Twig_Extension
         return $environment->render(
             $template,
             [
-                'root' => $this->navigationHelper->getNavigation($identifier)->getRoot(),
+                'root' => $this->navigationHelper->getNavigation($identifier)->getCurrentRoot(),
                 'identifier' => $identifier,
                 'helper' => $this->helper,
                 'navigation_helper' => $this->navigationHelper,

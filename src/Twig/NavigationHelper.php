@@ -51,7 +51,11 @@ class NavigationHelper
 
     public function isAncestor(string $identifier, ItemInterface $item): bool
     {
-        return $this->getNavigation($identifier)->isAncestor($item);
+        try {
+            return $this->getNavigation($identifier)->isAncestor($item);
+        } catch (NoCurrentItemFoundException $e) {
+            return false;
+        }
     }
 
     public function getNavigation(string $navigation): NavigationBuilder

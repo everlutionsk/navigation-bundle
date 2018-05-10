@@ -22,7 +22,6 @@ class EverlutionNavigationBundle extends Bundle
     public function build(ContainerBuilder $container)
     {
         $container->addCompilerPass(new RegistryCompilerPass());
-        $container->addCompilerPass(new NestedRegistryCompilerPass());
         $container->addCompilerPass(new UrlProviderCompilerPass());
         $container->addCompilerPass(new VoterCompilerPass());
         $container->addCompilerPass(new RegisterStandaloneItemsCompilerPass());

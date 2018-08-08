@@ -10,7 +10,9 @@ services:
     Everlution\Navigation\Url\UrlProviderContainer: ~
     Everlution\NavigationBundle\Bridge\NavigationAliasContainer: ~
     Everlution\NavigationBundle\Bridge\Matcher: ~
+    Everlution\Navigation\Builder\MatcherInterface: '@Everlution\NavigationBundle\Bridge\Matcher'
     Everlution\NavigationBundle\Bridge\Item\Container\ItemContainer: ~
+    Everlution\NavigationBundle\Bridge\Item\Container\ItemContainerInterface: '@Everlution\NavigationBundle\Bridge\Item\Container\ItemContainer'
 
     Everlution\NavigationBundle\Bridge\Url\UrlProvider:
         arguments:
@@ -27,6 +29,7 @@ services:
 
     # match voters
     Everlution\Navigation\Match\VoterContainer: ~
+    Everlution\Navigation\Match\UrlMatchVoterInterface: '@Everlution\Navigation\Match\VoterContainer'
     Everlution\Navigation\Match\Voter\ExactMatchVoter:
         tags: ['everlution.match_voter']
     Everlution\Navigation\Match\Voter\PrefixMatchVoter:

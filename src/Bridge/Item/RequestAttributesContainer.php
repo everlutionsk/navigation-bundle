@@ -22,8 +22,12 @@ class RequestAttributesContainer implements RequestAttributesContainerInterface
         $this->request = $requestStack->getMasterRequest();
     }
 
-    public function get(string $name, string $default = null): string
+    public function get(string $name, string $default = ''): string
     {
+        if (!$this->request) {
+            return '';
+        }
+
         return $this->request->get($name, $default);
     }
 }

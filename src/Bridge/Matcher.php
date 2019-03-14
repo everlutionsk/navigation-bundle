@@ -30,7 +30,7 @@ class Matcher implements MatcherInterface
 
     public function isCurrent($item): bool
     {
-        if (!$item instanceof MatchableInterface) {
+        if (!$this->request || !$item instanceof MatchableInterface) {
             return false;
         }
 

@@ -11,5 +11,5 @@ namespace Everlution\NavigationBundle\Bridge\Item;
  */
 interface RequestAttributesContainerInterface
 {
-    public function get(string $name, string $default = null): string;
+    public function get(string $name, string $default = ''): string;
 }

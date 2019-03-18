@@ -14,20 +14,22 @@ use Symfony\Component\HttpFoundation\RequestStack;
  */
 class RequestAttributesContainer implements RequestAttributesContainerInterface
 {
-    /** @var Request */
-    private $request;
+    /** @var RequestStack */
+    private $requestStack;
 
     public function __construct(RequestStack $requestStack)
     {
-        $this->request = $requestStack->getMasterRequest();
+        $this->requestStack = $requestStack;
     }
 
     public function get(string $name, string $default = ''): string
     {
-        if (!$this->request) {
+        $request = $this->requestStack->getMasterRequest();
+
+        if (!$request) {
             return '';
         }
 
-        return $this->request->get($name, $default);
+        return $request->get($name, $default);
     }
 }

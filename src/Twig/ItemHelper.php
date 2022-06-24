@@ -8,7 +8,7 @@ use Everlution\Navigation\Item\ItemInterface;
 use Everlution\Navigation\Url\CannotProvideUrlForItemException;
 use Everlution\Navigation\Url\UrlProviderContainer;
 use Everlution\NavigationBundle\Bridge\Item\TranslatableItemLabelInterface;
-use Symfony\Component\Translation\TranslatorInterface;
+use Symfony\Contracts\Translation\TranslatorInterface;
 
 /**
  * Class Helper.

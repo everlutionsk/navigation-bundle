@@ -24,7 +24,7 @@ class Matcher implements MatcherInterface
 
     public function __construct(RequestStack $requestStack, UrlMatchVoterInterface $voter)
     {
-        $this->request = $requestStack->getMasterRequest();
+        $this->request = $requestStack->getMainRequest();
         $this->voter = $voter;
     }
 

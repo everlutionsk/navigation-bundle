@@ -6,13 +6,14 @@ namespace Everlution\NavigationBundle\Twig;
 
 use Everlution\Navigation\Builder\NoCurrentItemFoundException;
 use Twig\Environment;
+use Twig\Extension\AbstractExtension;
 
 /**
  * Class NavigationExtension.
  *
  * @author Ivan Barlog <ivan.barlog@everlution.sk>
  */
-class NavigationExtension extends \Twig_Extension
+class NavigationExtension extends AbstractExtension
 {
     /** @var ItemHelper */
     private $helper;

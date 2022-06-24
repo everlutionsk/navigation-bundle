@@ -7,13 +7,14 @@ namespace Everlution\NavigationBundle\Twig;
 use Everlution\Navigation\Builder\MatcherInterface;
 use Everlution\NavigationBundle\Bridge\Item\Container\ItemContainerInterface;
 use Twig\Environment;
+use Twig\Extension\AbstractExtension;
 
 /**
  * Class ItemExtension.
  *
  * @author Ivan Barlog <ivan.barlog@everlution.sk>
  */
-class ItemExtension extends \Twig_Extension
+class ItemExtension extends AbstractExtension
 {
     /** @var NavigationHelper */
     private $helper;

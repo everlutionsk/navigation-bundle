@@ -459,7 +459,7 @@ class ItemFilteredByRole implements Everlution\Navigation\Item\ItemInterface, Ev
     public function getSupportedRoles(): array
     {
         return [
-            'IS_AUTHENTICATED_ANONYMOUSLY',
+            'PUBLIC_ACCESS',
         ];
     }
 }

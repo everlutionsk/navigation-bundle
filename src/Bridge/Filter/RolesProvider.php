@@ -26,11 +26,11 @@ class RolesProvider implements RolesProviderInterface
     {
         try {
             return array_merge(
-                $this->tokenStorage->getToken()->getUser()->getRoles(),
+                $this->tokenStorage->getToken()?->getUser()?->getRoles(),
                 ['IS_AUTHENTICATED_FULLY']
             );
         } catch (\Exception $exception) {
-            return ['IS_AUTHENTICATED_ANONYMOUSLY'];
+            return ['PUBLIC_ACCESS'];
         }
     }
 }

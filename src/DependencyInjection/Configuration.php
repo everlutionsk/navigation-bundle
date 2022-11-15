@@ -18,13 +18,13 @@ class Configuration implements ConfigurationInterface
 
     public function getConfigTreeBuilder()
     {
-        $treeBuilder = new TreeBuilder();
-        $rootNode = $treeBuilder->root('everlution_navigation');
-
-        $rootNode
+        $treeBuilder = new TreeBuilder('everlution_navigation');
+        $treeBuilder
+            ->getRootNode()
             ->children()
                 ->scalarNode(self::CONFIG_ROUTER_SERVICE)->defaultValue('router.default')->end()
-            ->end();
+            ->end()
+        ;
 
         return $treeBuilder;
     }

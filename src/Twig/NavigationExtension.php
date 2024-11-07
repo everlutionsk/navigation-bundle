@@ -7,6 +7,8 @@ namespace Everlution\NavigationBundle\Twig;
 use Everlution\Navigation\Builder\NoCurrentItemFoundException;
 use Twig\Environment;
 use Twig\Extension\AbstractExtension;
+use Twig\TwigFilter;
+use Twig\TwigFunction;
 
 /**
  * Class NavigationExtension.
@@ -73,12 +75,12 @@ class NavigationExtension extends AbstractExtension
     public function getFunctions()
     {
         return [
-            new \Twig_SimpleFunction(
+            new TwigFunction(
                 'render_navigation',
                 [$this, 'renderNavigation'],
                 ['needs_environment' => true, 'is_safe' => ['html']]
             ),
-            new \Twig_SimpleFunction(
+            new TwigFunction(
                 'render_breadcrumbs',
                 [$this, 'renderBreadcrumbs'],
                 ['needs_environment' => true, 'is_safe' => ['html']]
@@ -89,7 +91,7 @@ class NavigationExtension extends AbstractExtension
     public function getFilters()
     {
         return [
-            new \Twig_SimpleFilter('url', [$this->helper, 'getUrl']),
+            new TwigFilter('url', [$this->helper, 'getUrl']),
         ];
     }
 }

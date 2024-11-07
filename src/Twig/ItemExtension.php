@@ -8,6 +8,7 @@ use Everlution\Navigation\Builder\MatcherInterface;
 use Everlution\NavigationBundle\Bridge\Item\Container\ItemContainerInterface;
 use Twig\Environment;
 use Twig\Extension\AbstractExtension;
+use Twig\TwigFunction;
 
 /**
  * Class ItemExtension.
@@ -53,7 +54,7 @@ class ItemExtension extends AbstractExtension
     public function getFunctions()
     {
         return [
-            new \Twig_SimpleFunction(
+            new TwigFunction(
                 'render_item',
                 [$this, 'renderItem'],
                 ['needs_environment' => true, 'is_safe' => ['html']]
